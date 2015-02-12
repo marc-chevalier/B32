@@ -8,10 +8,10 @@ std::vector<std::bitset<BLOC_LENGTH>> Parseur::parseClefs(std::string clefs_file
 {
     std::vector<std::bitset<BLOC_LENGTH>> clefs(0);
     ifstream clefs_file(clefs_filename, ifstream::in);
-    int nbr_clefs;
+    size_t nbr_clefs;
     clefs_file>>nbr_clefs;
     clefs = vector<bitset<BLOC_LENGTH>>(nbr_clefs);
-    for(int i=0;i<nbr_clefs;++i)
+    for(size_t i=0;i<nbr_clefs;++i)
     {
         string w;
         clefs_file>>w;
@@ -26,7 +26,7 @@ std::vector<std::bitset<BLOC_LENGTH>> Parseur::parseText(std::string text_filena
     vector<bitset<BLOC_LENGTH>> text(1);
     ifstream text_file(text_filename, ifstream::in);
     char c;
-    int i=0;
+    size_t i=0;
     int j=-1;
     while(text_file.get(c))
     {
@@ -37,7 +37,7 @@ std::vector<std::bitset<BLOC_LENGTH>> Parseur::parseText(std::string text_filena
         }
         j++;
         j%=BLOC_LENGTH;
-        text[i][BLOC_LENGTH-j-1] = c-'0';
+        text[i][static_cast<size_t>(BLOC_LENGTH-j-1)] = c-'0';
 
     }
     text_file.close();
@@ -49,9 +49,9 @@ std::vector<std::bitset<BLOC_LENGTH>> Parseur::parseSBox(std::string sbox_filena
 {
     vector<bitset<BLOC_LENGTH>> SBox(1<<PIECE_LENGTH);
     ifstream sbox_file(sbox_filename, ifstream::in);
-    for(int k=0;k<1<<PIECE_LENGTH;++k)
+    for(size_t k=0;k<1<<PIECE_LENGTH;++k)
     {
-        int w;
+        long long unsigned int w;
         sbox_file>>w;
         SBox[k]=bitset<BLOC_LENGTH>(w);
     }

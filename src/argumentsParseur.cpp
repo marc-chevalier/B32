@@ -40,7 +40,7 @@ void ArgumentsParser::parse(int argc, char* argv[])
     }
 }
 
-string ArgumentsParser::getArgument(int index)
+string ArgumentsParser::getArgument(size_t index)
 {
     return arguments[index];
 }
@@ -52,7 +52,8 @@ bool ArgumentsParser::getOption(string nom)
 
 vector<string> ArgumentsParser::getNomsOptions()
 {
-    vector<string> liste(1);
+    vector<string> liste(2);
     liste[0]="c";
+    liste[1]="d";
     return liste;
 }
