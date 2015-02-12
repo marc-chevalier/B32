@@ -2,35 +2,23 @@
 #include <cstdlib>
 #include <vector>
 #include "include/chiffre.h"
+#include "include/parseur.h"
+#include "include/std.h"
 
 using namespace std;
 
 int main(int argc, char* argv[])
 {
-    vector<uint32_t> clefs(3);
-    clefs[0]=128+1;
-    clefs[1]=255;
-    clefs[2]=128-2;
-    vector<uint32_t> SBox(16);
-    SBox[0]=7;
-    SBox[1]=3;
-    SBox[2]=6;
-    SBox[3]=1;
-    SBox[4]=13;
-    SBox[5]=9;
-    SBox[6]=10;
-    SBox[7]=11;
-    SBox[8]=2;
-    SBox[9]=12;
-    SBox[10]=0;
-    SBox[11]=4;
-    SBox[12]=5;
-    SBox[13]=15;
-    SBox[14]=8;
-    SBox[15]=14;
+    vector<bitset<BLOC_LENGTH>> clefs(3);
+    clefs[0]=bitset<BLOC_LENGTH>(string("10000000000000000000000000000001"));
+    clefs[1]=bitset<BLOC_LENGTH>(string("11111111111111111111111111111111"));
+    clefs[2]=bitset<BLOC_LENGTH>(string("01111111111111111111111111111110"));
+    bitset<BLOC_LENGTH> SBoc_liste[]={7,3,6,1,13,9,10,11,2,12,0,4,5,15,8,14};
+    vector<bitset<BLOC_LENGTH>> SBox(SBoc_liste, SBoc_liste+16);
     Chiffre test(clefs, SBox);
-    vector<uint32_t> plaintext(1,0);
-    cout<<test.chiffrer(plaintext)[0]<<endl;
+    vector<bitset<BLOC_LENGTH>> plaintext(1,0);
+    bitset<BLOC_LENGTH> result(string("00111001011001100110011001100110"));
+    cout<<(test.chiffrer(plaintext)[0]==result)<<endl;
 
 
     if(argc != 3)
@@ -38,5 +26,8 @@ int main(int argc, char* argv[])
         cerr<<"Utilisation : B32 keys plaintext"<<endl;
         return EXIT_FAILURE;
     }
+
+    Parseur parseur(argv[1], argv[2]);
+
     return 0;
 }
