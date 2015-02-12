@@ -4,30 +4,43 @@
 #include "include/chiffre.h"
 #include "include/parseur.h"
 #include "include/std.h"
+#include "include/argumentsParseur.h"
 
 using namespace std;
 
 int main(int argc, char* argv[])
 {
-    vector<bitset<BLOC_LENGTH>> clefs(3);
-    clefs[0]=bitset<BLOC_LENGTH>(string("10000000000000000000000000000001"));
-    clefs[1]=bitset<BLOC_LENGTH>(string("11111111111111111111111111111111"));
-    clefs[2]=bitset<BLOC_LENGTH>(string("01111111111111111111111111111110"));
-    bitset<BLOC_LENGTH> SBoc_liste[]={7,3,6,1,13,9,10,11,2,12,0,4,5,15,8,14};
-    vector<bitset<BLOC_LENGTH>> SBox(SBoc_liste, SBoc_liste+16);
-    Chiffre test(clefs, SBox);
-    vector<bitset<BLOC_LENGTH>> plaintext(1,0);
-    bitset<BLOC_LENGTH> result(string("00111001011001100110011001100110"));
-    cout<<(test.chiffrer(plaintext)[0]==result)<<endl;
+    ArgumentsParser arguments(ArgumentsParser::getNomsOptions());
+    arguments.parse(argc, argv);
 
+    if(arguments.demandeAide())
+    {
+        cout<<endl<<"Syntaxes :"<<endl;
+        cout<<"./B32 -c keys sbox plaintext"<<endl;
+
+        cout<<"-c               Chiffrer"<<endl;
+        cout<<"-h               Vous y êtes"<<endl;
+        cout<<"--help           Vous y êtes"<<endl<<endl;
+        return(EXIT_SUCCESS);
+    }
+    if(arguments.getOption("c"))
+    {
+        if(arguments.nbArguments()!=3)
+        {
+            cout<<endl<<"Syntaxe :"<<endl;
+            cout<<"./B32 -c keys sbox plaintext"<<endl;
+        }
+        Chiffre test(Parseur::parseClefs(arguments.getArgument(0)), Parseur::parseSBox(arguments.getArgument(1)));
+        vector<bitset<BLOC_LENGTH>> ciphertext=test.chiffrer(Parseur::parseText(arguments.getArgument(2)));
+        for(bitset<BLOC_LENGTH> bloc : ciphertext)
+            cout<<bloc;
+    }
 
     if(argc != 3)
     {
-        cerr<<"Utilisation : B32 keys plaintext"<<endl;
+        cerr<<"Utilisation : ./B32 keys sbox plaintext"<<endl;
         return EXIT_FAILURE;
     }
-
-    Parseur parseur(argv[1], argv[2]);
 
     return 0;
 }
