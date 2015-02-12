@@ -1,14 +1,14 @@
 #include <iostream>
 #include <cstdlib>
 #include <vector>
-#include "include/chiffre.h"
-#include "include/parseur.h"
-#include "include/std.h"
-#include "include/argumentsParseur.h"
+#include "../include/chiffre.h"
+#include "../include/parseur.h"
+#include "../include/std.h"
+#include "../include/argumentsParseur.h"
 
 using namespace std;
 
-int main(int argc, char* argv[])
+int main(int argc, char* argv[]) 
 {
     ArgumentsParser arguments(ArgumentsParser::getNomsOptions());
     arguments.parse(argc, argv);

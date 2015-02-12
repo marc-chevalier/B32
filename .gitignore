@@ -1,7 +1,10 @@
 *.cbp
+*.d
 *.o
 *.exe
 *~
 B32
 *.depend
 *.layout
+temp.log
+temp.errors
