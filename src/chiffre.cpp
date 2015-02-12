@@ -16,7 +16,7 @@ vector<bitset<BLOC_LENGTH>> Chiffre::dechiffrer(vector<bitset<BLOC_LENGTH>> ciph
 
 bitset<BLOC_LENGTH> Chiffre::dechiffrerBloc(bitset<BLOC_LENGTH> ciphertext)
 {
-    for(unsigned int i=clefs.size()-1;i>0;--i)
+    for(size_t i=clefs.size()-1;i>0;--i)
         ciphertext=depasse(clefs[i], ciphertext);
 
     ciphertext = ciphertext^clefs[0];
