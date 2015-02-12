@@ -10,6 +10,10 @@ endif
 CFLAGS=$(NAZI)
 LDFLAGS= 
 EXEC=setup B32
+SRC = $(wildcard src/*.cpp) 
+OBJ = $(SRC:.cpp=.o)
+OBJ := $(notdir $(OBJ))
+OBJ := $(addprefix obj/, $(OBJ))
 
 all: $(EXEC) 
 
@@ -22,12 +26,11 @@ purge: clean all
 setup:
 	mkdir -p obj
 
-B32: obj/main.o
-	$(CC) -o $@ $^ $(LDFLAGS)
+B32: $(OBJ)
+	$(CC) -o obj/$@ $^ main.cpp $(C11) $(LDFLAGS)
 
-obj/main.o: main.cpp
+obj/%.o: src/%.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 clean:
 	rm -f obj/*.o
-	rm -f *~ src/*~ include/*~
