@@ -30,3 +30,4 @@ obj/main.o: main.cpp
 
 clean:
 	rm -f obj/*.o
+	rm -f *~ src/*~ include/*~
