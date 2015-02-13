@@ -1,4 +1,3 @@
-ECHO=echo
 CC=g++
 C11= -std=c++11
 FLAGSBASE= -O2 -W -Wextra -Wcast-qual -Wcast-align -Wfloat-equal -Wshadow -Wpointer-arith -Wunreachable-code -Wchar-subscripts -Wcomment -Wformat -Werror-implicit-function-declaration -Wmain -Wmissing-braces -Wparentheses -Wsequence-point -Wreturn-type -Wswitch -Wuninitialized -Wreorder -Wundef -Wwrite-strings -Wsign-compare -Wmissing-declarations 
@@ -11,10 +10,6 @@ endif
 CFLAGS=$(NAZI)
 LDFLAGS= 
 EXEC=setup B32 
-SRC = $(wildcard src/*.cpp) 
-OBJ = $(SRC:.cpp=.o)
-OBJ := $(notdir $(OBJ))
-OBJ := $(addprefix obj/, $(OBJ))
 
 NO_COLOR=\033[m\017
 ERROR_COLOR=\033[0;31m
