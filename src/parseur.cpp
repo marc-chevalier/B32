@@ -4,9 +4,9 @@
 
 using namespace std;
 
-std::vector<std::bitset<BLOC_LENGTH>> Parseur::parseClefs(std::string clefs_filename)
+vector<bitset<BLOC_LENGTH>> Parseur::parseClefs(string clefs_filename)
 {
-    std::vector<std::bitset<BLOC_LENGTH>> clefs(0);
+    vector<bitset<BLOC_LENGTH>> clefs(0);
     ifstream clefs_file(clefs_filename, ifstream::in);
     size_t nbr_clefs;
     clefs_file>>nbr_clefs;
@@ -21,7 +21,7 @@ std::vector<std::bitset<BLOC_LENGTH>> Parseur::parseClefs(std::string clefs_file
     return clefs;
 }
 
-std::vector<std::bitset<BLOC_LENGTH>> Parseur::parseText(std::string text_filename)
+vector<bitset<BLOC_LENGTH>> Parseur::parseText(string text_filename)
 {
     vector<bitset<BLOC_LENGTH>> text(1);
     ifstream text_file(text_filename, ifstream::in);
@@ -45,7 +45,7 @@ std::vector<std::bitset<BLOC_LENGTH>> Parseur::parseText(std::string text_filena
     return text;
 }
 
-std::vector<std::bitset<BLOC_LENGTH>> Parseur::parseSBox(std::string sbox_filename)
+vector<bitset<BLOC_LENGTH>> Parseur::parseSBox(string sbox_filename)
 {
     vector<bitset<BLOC_LENGTH>> SBox(1<<PIECE_LENGTH);
     ifstream sbox_file(sbox_filename, ifstream::in);
