@@ -68,7 +68,7 @@ B32: CMD = $(CXX) $(OBJS) $(LDFLAGS) -o $@
 B32: $(OBJS)
 	@$(PRINT_LD)
 	@mkdir -p $(dir $@)
-	@$(BUILD_CMD) 
+	@$(BUILD_CMD)
 
 clean:
 	@$(PRINT_RM)

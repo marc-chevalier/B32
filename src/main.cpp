@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
             cout<<endl<<"Syntaxe :"<<endl;
             cout<<"./B32 -c keys sbox plaintext"<<endl;
             cout<<"Faites `./B32 --help' ou `./B32 -h' pour plus d'informations."<<endl;
-            return EXIT_SUCCESS;
+            return EXIT_FAILURE;
         }
         Chiffre test(Parseur::parseClefs(arguments.getArgument(0)), Parseur::parseSBox(arguments.getArgument(1)));
         vector<bitset<BLOC_LENGTH>> ciphertext=test.chiffrer(Parseur::parseText(arguments.getArgument(2)));
@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
             cout<<endl<<"Syntaxe :"<<endl;
             cout<<"./B32 -c keys sbox ciphertext"<<endl;
             cout<<"Faites `./B32 --help' ou `./B32 -h' pour plus d'informations."<<endl;
-            return EXIT_SUCCESS;
+            return EXIT_FAILURE;
         }
         Chiffre test(Parseur::parseClefs(arguments.getArgument(0)), Parseur::parseSBox(arguments.getArgument(1)));
         vector<bitset<BLOC_LENGTH>> plaintext=test.dechiffrer(Parseur::parseText(arguments.getArgument(2)));
@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
             cout<<endl<<"Syntaxe :"<<endl;
             cout<<"./B32 -a sbox"<<endl;
             cout<<"Faites `./B32 --help' ou `./B32 -h' pour plus d'informations."<<endl;
-            return EXIT_SUCCESS;
+            return EXIT_FAILURE;
         }
         vector<bitset<BLOC_LENGTH>> SBox(Parseur::parseSBox(arguments.getArgument(0)));
         linearApproxMatrix matrix (SBox);
