@@ -52,8 +52,9 @@ bool ArgumentsParser::getOption(string nom)
 
 vector<string> ArgumentsParser::getNomsOptions()
 {
-    vector<string> liste(2);
+    vector<string> liste(3);
     liste[0]="c";
     liste[1]="d";
+    liste[2]="a";
     return liste;
 }

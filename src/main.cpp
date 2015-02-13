@@ -5,10 +5,11 @@
 #include "../include/parseur.h"
 #include "../include/std.h"
 #include "../include/argumentsParseur.h"
+#include "../include/linearApproxMatrix.h"
 
 using namespace std;
 
-int main(int argc, char* argv[]) 
+int main(int argc, char* argv[])
 {
     ArgumentsParser arguments(ArgumentsParser::getNomsOptions());
     arguments.parse(argc, argv);
@@ -21,6 +22,7 @@ int main(int argc, char* argv[])
 
         cout<<"-c               Chiffrer"<<endl;
         cout<<"-d               Déchiffrer"<<endl;
+        cout<<"-a               Matrice d'approximation linéaire"<<endl;
         cout<<"-h               Vous y êtes"<<endl;
         cout<<"--help           Vous y êtes"<<endl<<endl;
         return EXIT_SUCCESS;
@@ -31,6 +33,8 @@ int main(int argc, char* argv[])
         {
             cout<<endl<<"Syntaxe :"<<endl;
             cout<<"./B32 -c keys sbox plaintext"<<endl;
+            cout<<"Faites `./B32 --help' ou `./B32 -h' pour plus d'informations."<<endl;
+            return EXIT_SUCCESS;
         }
         Chiffre test(Parseur::parseClefs(arguments.getArgument(0)), Parseur::parseSBox(arguments.getArgument(1)));
         vector<bitset<BLOC_LENGTH>> ciphertext=test.chiffrer(Parseur::parseText(arguments.getArgument(2)));
@@ -44,6 +48,8 @@ int main(int argc, char* argv[])
         {
             cout<<endl<<"Syntaxe :"<<endl;
             cout<<"./B32 -c keys sbox ciphertext"<<endl;
+            cout<<"Faites `./B32 --help' ou `./B32 -h' pour plus d'informations."<<endl;
+            return EXIT_SUCCESS;
         }
         Chiffre test(Parseur::parseClefs(arguments.getArgument(0)), Parseur::parseSBox(arguments.getArgument(1)));
         vector<bitset<BLOC_LENGTH>> plaintext=test.dechiffrer(Parseur::parseText(arguments.getArgument(2)));
@@ -51,6 +57,19 @@ int main(int argc, char* argv[])
             cout<<bloc;
         return EXIT_SUCCESS;
     }
-    cout<<"Faites `./B32 --help' ou `./B32 -h' pour plus d'informations."<<endl;
+    if(arguments.getOption("a"))
+    {
+        if(arguments.nbArguments()!=1)
+        {
+            cout<<endl<<"Syntaxe :"<<endl;
+            cout<<"./B32 -a sbox"<<endl;
+            cout<<"Faites `./B32 --help' ou `./B32 -h' pour plus d'informations."<<endl;
+            return EXIT_SUCCESS;
+        }
+        vector<bitset<BLOC_LENGTH>> SBox(Parseur::parseSBox(arguments.getArgument(0)));
+        linearApproxMatrix matrix (SBox);
+        cout<<matrix<<endl;
+        return EXIT_SUCCESS;
+    }
     return 0;
 }
