@@ -18,7 +18,8 @@ int main(int argc, char* argv[])
     {
         cout<<endl<<"Syntaxes :"<<endl;
         cout<<"    ./B32 -c keys sbox plaintext"<<endl;
-        cout<<"    ./B32 -d keys sbox ciphertext"<<endl<<endl;
+        cout<<"    ./B32 -d keys sbox ciphertext"<<endl;
+        cout<<"    ./B32 -a sbox"<<endl<<endl;
 
         cout<<"-c               Chiffrer"<<endl;
         cout<<"-d               Déchiffrer"<<endl;
@@ -71,5 +72,6 @@ int main(int argc, char* argv[])
         cout<<matrix<<endl;
         return EXIT_SUCCESS;
     }
+    cout<<"Faites `./B32 --help' ou `./B32 -h' pour plus d'informations."<<endl;
     return 0;
 }

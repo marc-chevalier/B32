@@ -9,29 +9,31 @@ using namespace std;
 linearApproxMatrix::linearApproxMatrix(vector<bitset<BLOC_LENGTH>>SBox) :
 matrix(vector <vector <int> >())
 {
-    unsigned int x;
     matrix.resize(SBox.size());
-    for (x = 0; x< SBox.size(); ++x)
+    for (unsigned int x = 0; x< SBox.size(); ++x)
         matrix[x].resize(SBox.size(),0);
-    unsigned int a, b;
-    for (a = 0; a < SBox.size(); ++a)
-        for (b = 0; b < SBox.size(); ++b)
-            for (x = 0; x < SBox.size(); ++x) {
+
+    for (unsigned int a = 0; a < SBox.size(); ++a)
+        for (unsigned int b = 0; b < SBox.size(); ++b)
+            for (unsigned int x = 0; x < SBox.size(); ++x)
+            {
                 bitset<BLOC_LENGTH> bitset_a(a);
                 bitset<BLOC_LENGTH> bitset_b(b);
                 bitset<BLOC_LENGTH> bitset_x(x); // Init bitsets
                 if (prod(bitset_a,bitset_x) == prod(bitset_b,SBox[x]))
-                    (matrix[a])[b]++;
+                    matrix[a][b]++;
             }
 }
 
 void linearApproxMatrix::print(ostream& flux)
 {
-    vector< vector<int> >::iterator row;
-    vector<int>::iterator col;
-    for (row = matrix.begin(); row != matrix.end(); ++row) {
-        for (col = row->begin(); col != row->end(); ++col) {
-            flux << *col << " ";
+    for(vector<int> row : matrix)
+    {
+        for(int col : row)
+        {
+            if(col<10)
+                flux << ' ';
+            flux << col << " ";
         }
         flux << endl;
     }
@@ -39,7 +41,7 @@ void linearApproxMatrix::print(ostream& flux)
 
 bool prod(bitset<BLOC_LENGTH> a, bitset<BLOC_LENGTH> b)
 {
-    return ((a&b).count())%2;
+    return (a&b).count()%2;
 }
 
 ostream& operator<<(ostream& flux, linearApproxMatrix approx)

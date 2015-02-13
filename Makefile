@@ -1,12 +1,8 @@
 CC=g++
-C11= -std=c++11
+C11=-std=c++11
 FLAGSBASE= -O2 -W -Wextra -Wcast-qual -Wcast-align -Wfloat-equal -Wshadow -Wpointer-arith -Wunreachable-code -Wchar-subscripts -Wcomment -Wformat -Werror-implicit-function-declaration -Wmain -Wmissing-braces -Wparentheses -Wsequence-point -Wreturn-type -Wswitch -Wuninitialized -Wreorder -Wundef -Wwrite-strings -Wsign-compare -Wmissing-declarations 
 NAZIBASE= $(FLAGSBASE) -pedantic -Wconversion -Wmissing-noreturn -Wold-style-cast -Weffc++ -Wall -Wunused -Wsign-conversion -Wunused -Wstrict-aliasing -Wstrict-overflow -Wconversion -Wdisabled-optimization
-ifeq ($(CC), g++)
-    NAZI= $(NAZIBASE) -Wsuggest-attribute=const -Wsuggest-attribute=noreturn -Wsuggest-attribute=pure -Wlogical-op 
-else
-    NAZI=$(NAZIBASE)
-endif
+NAZI= $(NAZIBASE) -Wsuggest-attribute=const -Wsuggest-attribute=noreturn -Wsuggest-attribute=pure -Wlogical-op 
 CFLAGS=$(NAZI)
 LDFLAGS= 
 EXEC=setup B32 
@@ -40,11 +36,7 @@ DEPS := $(patsubst src/%.c,obj/%.d,$(patsubst src/%.cpp,obj/%.d,$(SRCS)))
 
 .PHONY: clean
 
-all: $(EXEC) 
-
-debug: CFLAGS = $(NAZI) -D DEBUG -g
-debug: FLAGSBASE = -O2 -W -Wextra -Wcast-qual -Wcast-align -Wfloat-equal -Wshadow -Wpointer-arith -Wunreachable-code -Wchar-subscripts -Wcomment -Wformat -Werror-implicit-function-declaration -Wmain -Wmissing-braces -Wparentheses -Wsequence-point -Wreturn-type -Wswitch -Wuninitialized -Wreorder -Wundef -Wshadow -Wwrite-strings -Wsign-compare -Wmissing-declarations -D DEBUG -g
-debug: $(EXEC)
+all: $(EXEC)
 
 purge: clean all
 
@@ -71,3 +63,4 @@ clean:
 	@rm -f obj/*.d
 	@rm -f B32
 	@$(PRINT_OK)
+	
