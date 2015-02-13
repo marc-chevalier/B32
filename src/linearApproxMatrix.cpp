@@ -6,7 +6,8 @@
 
 using namespace std;
 
-linearApproxMatrix::linearApproxMatrix(vector<bitset<BLOC_LENGTH>>SBox)
+linearApproxMatrix::linearApproxMatrix(vector<bitset<BLOC_LENGTH>>SBox) :
+matrix(vector <vector <int> >())
 {
     unsigned int a, b, x;
     for (a = 0; a < SBox.size(); ++a)
@@ -20,15 +21,15 @@ linearApproxMatrix::linearApproxMatrix(vector<bitset<BLOC_LENGTH>>SBox)
             }
 }
 
-void linearApproxMatrix::print(ofstream& flux) const
+void linearApproxMatrix::print(ostream& flux)
 {
     vector< vector<int> >::iterator row;
     vector<int>::iterator col;
-    /*for (row = matrix.begin(); row != matrix.end(); ++row) {
+    for (row = matrix.begin(); row != matrix.end(); ++row) {
         for (col = row->begin(); col != row->end(); ++col) {
             flux << *col << " ";
         }
-    }*/ // TODO strange bug...
+    }
 }
 
 bool prod(bitset<BLOC_LENGTH> a, bitset<BLOC_LENGTH> b)
@@ -36,7 +37,7 @@ bool prod(bitset<BLOC_LENGTH> a, bitset<BLOC_LENGTH> b)
     return ((a&b).count())%2;
 }
 
-ofstream& operator<<(ofstream& flux, linearApproxMatrix approx)
+ostream& operator<<(ostream& flux, linearApproxMatrix approx)
 {
     approx.print(flux);
     return flux;
