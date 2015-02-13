@@ -9,7 +9,11 @@ using namespace std;
 linearApproxMatrix::linearApproxMatrix(vector<bitset<BLOC_LENGTH>>SBox) :
 matrix(vector <vector <int> >())
 {
-    unsigned int a, b, x;
+    unsigned int x;
+    matrix.resize(SBox.size());
+    for (x = 0; x< SBox.size(); ++x)
+        matrix[x].resize(SBox.size(),0);
+    unsigned int a, b;
     for (a = 0; a < SBox.size(); ++a)
         for (b = 0; b < SBox.size(); ++b)
             for (x = 0; x < SBox.size(); ++x) {
@@ -29,6 +33,7 @@ void linearApproxMatrix::print(ostream& flux)
         for (col = row->begin(); col != row->end(); ++col) {
             flux << *col << " ";
         }
+        flux << endl;
     }
 }
 
