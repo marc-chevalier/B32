@@ -8,3 +8,11 @@ B32
 *.layout
 temp.log
 temp.errors
+*.aux
+*.toc
+*.bbl
+*.dvi
+*.log
+*.ps
+*.pdf
+*.out
