@@ -73,5 +73,5 @@ int main(int argc, char* argv[])
         return EXIT_SUCCESS;
     }
     cout<<"Faites `./B32 --help' ou `./B32 -h' pour plus d'informations."<<endl;
-    return 0;
+    return EXIT_FAILURE;
 }
