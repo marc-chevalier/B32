@@ -39,6 +39,35 @@ void linearApproxMatrix::print(ostream& flux)
     }
 }
 
+void linearApproxMatrix::farthest_couples()
+{
+	int min = static_cast<int>(matrix.size());
+	int max = 0;
+	for(vector<int> row : matrix)
+	{
+		for(int col : row)
+		{
+			if(col > max && col != static_cast<int>(matrix.size()))
+				max = col;
+			if(col < min)
+				min = col;
+		}
+	}
+	cout << "Smaller probability : " << (static_cast<double>(min))/(static_cast<double>(matrix.size()));
+	cout << " for the couples :" << endl;
+	for(unsigned int a = 0; a < matrix.size(); ++a)
+		for(unsigned int b = 0; b < matrix[0].size(); ++b)
+			if(matrix[a][b] == min)
+				cout << "(" << a << "," << b << ") ";
+	cout << "\nBigger probability (none 1): " << (static_cast<double>(max))/(static_cast<double>(matrix.size()));
+	cout <<" for the couples :" << endl;
+	for(unsigned int a = 0; a < matrix.size(); ++a)
+		for(unsigned int b = 0; b < matrix[0].size(); ++b)
+			if(matrix[a][b] == max)
+				cout << "(" << a << "," << b << ") ";
+	cout << endl;
+}
+
 bool prod(bitset<BLOC_LENGTH> a, bitset<BLOC_LENGTH> b)
 {
     return (a&b).count()%2;

@@ -10,6 +10,7 @@ public:
     linearApproxMatrix(std::vector<std::bitset<BLOC_LENGTH>>SBox);
     ~linearApproxMatrix(){};
     void print(std::ostream& flux);
+	void farthest_couples();
 
 private:
     std::vector< std::vector<int> > matrix;

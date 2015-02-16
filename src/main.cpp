@@ -70,6 +70,7 @@ int main(int argc, char* argv[])
         vector<bitset<BLOC_LENGTH>> SBox(Parseur::parseSBox(arguments.getArgument(0)));
         linearApproxMatrix matrix (SBox);
         cout<<matrix<<endl;
+		matrix.farthest_couples();
         return EXIT_SUCCESS;
     }
     cout<<"Faites `./B32 --help' ou `./B32 -h' pour plus d'informations."<<endl;
