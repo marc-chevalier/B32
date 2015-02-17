@@ -48,4 +48,17 @@ Sachant que l'on cherche à approximer la fonction de chiffrement par la fonctio
 
 \section*{Question 4}
 
+Avec les notations introduites, on a $A.m = a.m^{(0)}$ et $P(B).x_1 = P(B).F(x_0,K_1) = P(B).(P(S(x_0)\oplus K_1)$.
+
+Soit $K_3$ telle que $K_1 = P(K_3)$. On a :
+
+$P(B).x_1 = P(B).(P(S(x_0))\oplus P(K_3)) = P(B).P(S(x_0) \oplus K_3) = B.(S(x_0) \oplus K_3) = b.(S(x_0^{(0)}) \oplus K_3^{(0)})$.
+
+D'où $\prob{A.m = P(B).x_1} = \prob{a.m^{(0)}= b.(S(x_0^{(0)}) \oplus K_3^{(0)})}$.
+
+Avec $x_0^{(0)} = m^{(0)} \oplus K_0^{(0)}$.
+
+%TODO : En gros l'idée est que l'ajout de clé ne change pas la distribution uniforme des messages. A justifier !
+
 \end{document}
+
