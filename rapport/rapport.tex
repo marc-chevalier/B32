@@ -48,7 +48,11 @@ Sachant que l'on cherche à approximer la fonction de chiffrement par la fonctio
 
 \section*{Question 4}
 
-Avec les notations introduites, on a $A.m = a.m^{(0)}$ et $P(B).x_1 = P(B).F(x_0,K_1) = P(B).(P(S(x_0)\oplus K_1)$.
+\underline{Remarque :} Comme la fin de la question le laisse suggérer, on suppose que les probabilités portent sur le message $m$, et que les clés $K_0$, $K_1$ et $K_2$ sont données.
+
+Soit $m$ un message aléatoire distribué (en tant que variable aléatoire) uniformément sur %TODO
+
+Avec les notations introduites dans l'énoncé, on a $A.m = a.m^{(0)}$ et $P(B).x_1 = P(B).F(x_0,K_1) = P(B).(P(S(x_0)\oplus K_1)$.
 
 Soit $K_3$ telle que $K_1 = P(K_3)$. On a :
 
@@ -58,7 +62,40 @@ D'où $\prob{A.m = P(B).x_1} = \prob{a.m^{(0)}= b.(S(x_0^{(0)}) \oplus K_3^{(0)}
 
 Avec $x_0^{(0)} = m^{(0)} \oplus K_0^{(0)}$.
 
-%TODO : En gros l'idée est que l'ajout de clé ne change pas la distribution uniforme des messages. A justifier !
+Pour se ramener aux probabilités introduites dans la matrice $L$ (i.e du type $\prob{a.y = b.S(y)}$), l'idée est d'observer que l'utilisation des clés ne changent pas la distribution uniforme.
+
+\begin{lemma}
+	Si $x$ est uniforme, alors $x \oplus K$ est uniforme pour tout clé $K$.
+\end{lemma}
+
+\begin{proof}
+	Il suffit de montrer que chaque bit de $x \oplus K$ est uniformément distribué dans $\{0,1\}$.
+
+	Soit $x_i$ un bit aléatoire de $x$. Le ième bit de $x \oplus K$ est $x_i \oplus K_i$.
+
+	Si $K_i = 0$, $x_i \oplus K_i = x_i$ donc uniforme.
+
+	Si $K_i = 1$, $x_i \oplus K_i = 1 - x_i$ également uniforme. 
+\end{proof}
+
+\begin{lemma}
+	Si $x$ est uniforme, alors $S(x)$ et $P(x)$ aussi.
+\end{lemma}
+\begin{proof}
+	Clair car $S$ et $P$ sont des bijections.
+\end{proof}
+
+Avec ces deux lemmes, on peut maintenant écrire :
+
+\begin{align*}
+\prob{a.m^{(0)}= b.(S(x_0^{(0)}) \oplus K_3^{(0)})} &= \prob{a.m^{(0)} = b.(S(x_0^{(0)}))} \\
+													&= \prob{a.(x^{(0)} \oplus K_0^{(0)}) =  b.(S(x_0^{(0)}))} \\
+													&= \prob{a.x^{(0)} = b.(S(x_0^{(0)}))} \\
+													&= \frac{1}{2} \pm \frac{6}{16}
+\end{align*}
+Car $0.125 = \frac{1}{2} - \frac{6}{16}$ et $0.875 = \frac{1}{2} + \frac{6}{16}$.
+
+D'où $\prob{A.m = P(B).x_1} = \frac{1}{2} \pm \frac{6}{16}$, ce qui permet de conclure.
 
 \end{document}
 
