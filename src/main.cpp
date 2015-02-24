@@ -6,6 +6,7 @@
 #include "../include/std.h"
 #include "../include/argumentsParseur.h"
 #include "../include/linearApproxMatrix.h"
+#include "../include/testQuestion5.h"
 
 using namespace std;
 
@@ -19,11 +20,13 @@ int main(int argc, char* argv[])
         cout<<endl<<"Syntaxes :"<<endl;
         cout<<"    ./B32 -c keys sbox plaintext"<<endl;
         cout<<"    ./B32 -d keys sbox ciphertext"<<endl;
-        cout<<"    ./B32 -a sbox"<<endl<<endl;
+        cout<<"    ./B32 -a sbox"<<endl;
+        cout<<"    ./B32 -e keys sbox"<<endl<<endl;
 
         cout<<"-c               Chiffrer"<<endl;
         cout<<"-d               Déchiffrer"<<endl;
         cout<<"-a               Matrice d'approximation linéaire"<<endl;
+        cout<<"-e               Expérience de la question 5"<<endl;
         cout<<"-h               Vous y êtes"<<endl;
         cout<<"--help           Vous y êtes"<<endl<<endl;
         return EXIT_SUCCESS;
@@ -70,7 +73,20 @@ int main(int argc, char* argv[])
         vector<bitset<BLOC_LENGTH>> SBox(Parseur::parseSBox(arguments.getArgument(0)));
         linearApproxMatrix matrix (SBox);
         cout<<matrix<<endl;
-		matrix.farthest_couples();
+		matrix.print_farthest_couples();
+        return EXIT_SUCCESS;
+    }
+    if(arguments.getOption("e"))
+    {
+        if(arguments.nbArguments()!=2)
+        {
+            cout<<endl<<"Syntaxe :"<<endl;
+            cout<<"./B32 -e keys sbox"<<endl;
+            cout<<"Faites `./B32 --help' ou `./B32 -h' pour plus d'informations."<<endl;
+            return EXIT_FAILURE;
+        }
+        testQuestion5 test(Parseur::parseClefs(arguments.getArgument(0)), Parseur::parseSBox(arguments.getArgument(1)));
+        test.experiment();
         return EXIT_SUCCESS;
     }
     cout<<"Faites `./B32 --help' ou `./B32 -h' pour plus d'informations."<<endl;

@@ -7,11 +7,15 @@ CFLAGS=$(NAZI)
 LDFLAGS= 
 EXEC=setup B32 
 
+# Definitions of colors
+
 NO_COLOR=\033[m\017
 ERROR_COLOR=\033[0;31m
 OK_COLOR=\033[0;32m
 WARN_COLOR=\033[0;33m
 CC_COLOR=\033[1;34m
+
+# Definition of the different messages with their colors
 
 OK_STRING=$(OK_COLOR)[OK]$(NO_COLOR)
 ERROR_STRING=$(ERROR_COLOR)[ERRORS]$(NO_COLOR)
@@ -20,6 +24,7 @@ CC_STRING=$(CC_COLOR)[CC]$(NO_COLOR)
 RM_STRING=$(CC_COLOR)[RM]$(NO_COLOR)
 LD_STRING=$(CC_COLOR)[LD]$(NO_COLOR)
 
+# Primitives to print the messages (magic)
 
 AWK_CMD = awk '{ printf "%-30s %-10s\n",$$1, $$2; }'
 PRINT_ERROR = printf "$@ $(ERROR_STRING)\n" | $(AWK_CMD) && printf "$(CMD)\n$$LOG\n" && false
@@ -29,6 +34,8 @@ PRINT_CC = printf "$(CC_STRING)" | awk '{ printf "%-1s %-1s",$$1, $$2; }'
 PRINT_RM = printf "$(RM_STRING)" | awk '{ printf "%-1s %-1s",$$1, $$2; }'
 PRINT_LD = printf "$(LD_STRING)" | awk '{ printf "%-1s %-1s",$$1, $$2; }'
 BUILD_CMD = LOG=$$($(CMD) 2>&1) ; if [ $$? -eq 1 ]; then $(PRINT_ERROR); elif [ "$$LOG" != "" ] ; then $(PRINT_WARNING); else $(PRINT_OK); fi;
+
+# Find sources and build objects and dependences
 
 SRCS := $(shell find src -name '*.c') $(shell find src -name '*.cpp')
 OBJS := $(patsubst src/%.c,obj/%.o,$(patsubst src/%.cpp,obj/%.o,$(SRCS)))
