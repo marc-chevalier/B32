@@ -85,7 +85,7 @@ int main(int argc, char* argv[])
             cout<<"Faites `./B32 --help' ou `./B32 -h' pour plus d'informations."<<endl;
             return EXIT_FAILURE;
         }
-        testQuestion5 test(Parseur::parseClefs(arguments.getArgument(0)), Parseur::parseSBox(arguments.getArgument(1)));
+        TestQuestion5 test(Parseur::parseClefs(arguments.getArgument(0)), Parseur::parseSBox(arguments.getArgument(1)));
         test.experiment();
         return EXIT_SUCCESS;
     }

@@ -7,13 +7,13 @@
 
 using namespace std;
 
-testQuestion5::testQuestion5(vector<bitset<BLOC_LENGTH>> clefs_, vector<bitset<BLOC_LENGTH>>SBox_, unsigned int nb_plaintext_):
+TestQuestion5::TestQuestion5(vector<bitset<BLOC_LENGTH>> clefs_, vector<bitset<BLOC_LENGTH>>SBox_, unsigned int nb_plaintext_):
 Chiffre(clefs_, SBox_), nb_plaintext(nb_plaintext_), mat(SBox_)
 {
     srand(static_cast<unsigned int>(time(NULL)));
 }
 
-void testQuestion5::experiment()
+void TestQuestion5::experiment()
 {
     unsigned int proba = 0;
     unsigned int a = mat.get_min(0);
