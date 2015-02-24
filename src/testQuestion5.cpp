@@ -13,7 +13,7 @@ Chiffre(clefs_, SBox_), nb_plaintext(nb_plaintext_), mat(SBox_)
     srand(static_cast<unsigned int>(time(NULL)));
 }
 
-void TestQuestion5::experiment()
+void TestQuestion5::experiment(bool verbose)
 {
     unsigned int proba = 0;
     unsigned int a = mat.get_min(0);
@@ -22,7 +22,7 @@ void TestQuestion5::experiment()
     bitset<BLOC_LENGTH> B (b<<(BLOC_LENGTH-4));
     for (unsigned int step = 0; step < nb_plaintext; ++step)
     {
-        bitset<BLOC_LENGTH> m = randomPlaintext();
+        bitset<BLOC_LENGTH> m = randomPlaintext(verbose);
         bitset<BLOC_LENGTH> x;
         x = m^clefs[0]; // we get x_0
         x = passe(x,clefs[1]); // we get x_1
@@ -34,7 +34,7 @@ void TestQuestion5::experiment()
     cout << "Probability found : " << static_cast<double>(proba)/static_cast<double>(nb_plaintext) << endl;
 }
 
-bitset<BLOC_LENGTH> randomPlaintext()
+bitset<BLOC_LENGTH> TestQuestion5::randomPlaintext(bool verbose)
 {
     unsigned long n = 0;
     for (unsigned int i = 0; i < BLOC_LENGTH; i++)
@@ -43,6 +43,7 @@ bitset<BLOC_LENGTH> randomPlaintext()
         n += static_cast<unsigned long>(rand() % 2);
     }
     bitset<BLOC_LENGTH> b(n);
-    cout << b << endl;
+    if(verbose)
+        cout << b << endl;
     return b;
 }

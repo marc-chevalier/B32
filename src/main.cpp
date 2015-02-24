@@ -27,6 +27,7 @@ int main(int argc, char* argv[])
         cout<<"-d               Déchiffrer"<<endl;
         cout<<"-a               Matrice d'approximation linéaire"<<endl;
         cout<<"-e               Expérience de la question 5"<<endl;
+        cout<<"-v               Verbose"<<endl;
         cout<<"-h               Vous y êtes"<<endl;
         cout<<"--help           Vous y êtes"<<endl<<endl;
         return EXIT_SUCCESS;
@@ -86,7 +87,7 @@ int main(int argc, char* argv[])
             return EXIT_FAILURE;
         }
         TestQuestion5 test(Parseur::parseClefs(arguments.getArgument(0)), Parseur::parseSBox(arguments.getArgument(1)));
-        test.experiment();
+        test.experiment(arguments.getOption("v"));
         return EXIT_SUCCESS;
     }
     cout<<"Faites `./B32 --help' ou `./B32 -h' pour plus d'informations."<<endl;
