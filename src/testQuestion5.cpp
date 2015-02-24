@@ -1,5 +1,5 @@
 #include "../include/testQuestion5.h"
-#include "../include/linearApproxMatrix.h" // prod
+#include "../include/linearApproxMatrix.h"
 #include<cmath>
 #include<iostream>
 #include<ctime>
@@ -26,7 +26,7 @@ void TestQuestion5::experiment(bool verbose)
         x = passe(x,clefs[1]); // we get x_1
         bitset<BLOC_LENGTH> PB = B;
         PB = (PB<<(BLOC_LENGTH-2))|(PB>>2);
-        if (prod(A,m) == prod(PB,x))
+        if (produitScalaire(A,m) == produitScalaire(PB,x))
             proba++;
     }
     cout << "Probability found : " << static_cast<double>(proba)/static_cast<double>(nb_plaintext) << endl;

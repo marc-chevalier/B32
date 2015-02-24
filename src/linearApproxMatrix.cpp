@@ -21,7 +21,7 @@ matrix(vector<vector<int>>()), minima(vector<unsigned int>()), maxima(vector<uns
                 bitset<BLOC_LENGTH> bitset_a(a);
                 bitset<BLOC_LENGTH> bitset_b(b);
                 bitset<BLOC_LENGTH> bitset_x(x); // Init bitsets
-                if (prod(bitset_a,bitset_x) == prod(bitset_b,SBox[x]))
+                if (produitScalaire(bitset_a,bitset_x) == produitScalaire(bitset_b,SBox[x]))
                     matrix[a][b]++;
             }
     // Build the max/min
@@ -97,7 +97,7 @@ unsigned int linearApproxMatrix::get_max(unsigned int index)
     return maxima[index];
 }
 
-bool prod(bitset<BLOC_LENGTH> a, bitset<BLOC_LENGTH> b)
+bool produitScalaire(bitset<BLOC_LENGTH> a, bitset<BLOC_LENGTH> b)
 {
     return (a&b).count()%2;
 }

@@ -20,6 +20,6 @@ private:
     std::vector<unsigned int> maxima;
 };
 
-bool prod(std::bitset<BLOC_LENGTH> a, std::bitset<BLOC_LENGTH> b)  __attribute__((pure));
+bool produitScalaire(std::bitset<BLOC_LENGTH> a, std::bitset<BLOC_LENGTH> b)  __attribute__((pure));
 std::ostream& operator<<(std::ostream& flux, linearApproxMatrix approx);
 
