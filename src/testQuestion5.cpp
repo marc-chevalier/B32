@@ -9,9 +9,7 @@ using namespace std;
 
 TestQuestion5::TestQuestion5(vector<bitset<BLOC_LENGTH>> clefs_, vector<bitset<BLOC_LENGTH>>SBox_, unsigned int nb_plaintext_):
 Chiffre(clefs_, SBox_), nb_plaintext(nb_plaintext_), mat(SBox_)
-{
-    srand(static_cast<unsigned int>(time(NULL)));
-}
+{}
 
 void TestQuestion5::experiment(bool verbose)
 {
@@ -36,13 +34,10 @@ void TestQuestion5::experiment(bool verbose)
 
 bitset<BLOC_LENGTH> TestQuestion5::randomPlaintext(bool verbose)
 {
-    unsigned long n = 0;
+    random_device random;
+    bitset<BLOC_LENGTH> b;
     for (unsigned int i = 0; i < BLOC_LENGTH; i++)
-    {
-        n *= 2;
-        n += static_cast<unsigned long>(rand() % 2);
-    }
-    bitset<BLOC_LENGTH> b(n);
+        b[i]=random() % 2;
     if(verbose)
         cout << b << endl;
     return b;

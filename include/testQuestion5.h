@@ -5,6 +5,7 @@
 #include<cstdint>
 #include<vector>
 #include<bitset>
+#include<random>
 
 class TestQuestion5 : public Chiffre
 {
