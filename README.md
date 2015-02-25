@@ -10,6 +10,7 @@ Just use
 
 ```bash
 git clone https://github.com/s-i-newton/B32.git
+cd B32
 make
 ```
 
