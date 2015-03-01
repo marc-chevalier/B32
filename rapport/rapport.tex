@@ -44,11 +44,18 @@ Elles sont atteintes respectivement pour les couples :
 \item $p_{1,5} = p_{4,8} = p_{10,11} = 0.875$
 \end{enumerate}
 
-Sachant que l'on cherche à approximer la fonction de chiffrement par la fonction linéaire, on souhaite avoir une probabilité de ressemblance importantes, les couples $(a,b)$ tels que $p_{a,b} = 0.875$ sont donc les plus utiles pour la cryptanalyse linéaire.
+L'idée générale sera d'utiliser ces valeurs pour trouver une relation entre des bits de l'entrée, des bits de la sortie, et des bits des clés $K_0, K_1 et K_2$ qui aura une forte probabilité de se réaliser. Ces relations doivent être suffisamment exploitables. Par exemple :
+\begin{itemize}
+	\item le couple $(1,5)$ nous dit que $x_0 = S(x)_0 \oplus S(x)_2$ avec probabilité 0.875, ici l'expression est satisfaisant car on exprime un seul bit de l'input en fonction de bits d'output.
+	\item le couple $(9,4)$ nous dit que $x_0 \oplus x_3 =  S(x)_3$ avec probabilité 0.125, expression également satisfaisante car on exprime un seul bit de l'output en fonction de bits d'input.
+	\item le couple $(10,11)$ nous dit que $x_1 \oplus x_3 = S(x)_0 + S(x)_1 + S(x)_3$ avec probabilité 0.875, cette dépendance est plus difficile à utiliser, même si elle apparaît avec une probabilité importante.
+\end{itemize}
+
+%Sachant que l'on cherche à approximer la fonction de chiffrement par la fonction linéaire, on souhaite avoir une probabilité de ressemblance importante, les couples $(a,b)$ tels que $p_{a,b} = 0.875$ sont donc les plus utiles pour la cryptanalyse linéaire.
 
 \section*{Question 4}
 
-\underline{Remarque :} Comme la fin de la question le laisse suggérer, on suppose que les probabilités portent sur le message $m$, et que les clés $K_0$, $K_1$ et $K_2$ sont données.
+\underline{Remarque :} Comme la fin de la question le laisse suggérer, on suppose que les probabilités portent sur le message $m$, et que les clés $K_0$, $K_1$ et $K_2$ sont fixées.
 
 Soit $m$ un message aléatoire distribué (en tant que variable aléatoire) uniformément sur %TODO
 
@@ -96,6 +103,10 @@ Avec ces deux lemmes, on peut maintenant écrire :
 Car $0.125 = \frac{1}{2} - \frac{6}{16}$ et $0.875 = \frac{1}{2} + \frac{6}{16}$.
 
 D'où $\prob{A.m = P(B).x_1} = \frac{1}{2} \pm \frac{6}{16}$, ce qui permet de conclure.
+
+\section*{Question 5}
+
+% TODO : faire une figure comme dans le papier, page 13, après confirmation de Vincent Mercredi.
 
 \end{document}
 
