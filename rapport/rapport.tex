@@ -59,11 +59,19 @@ L'idée générale sera d'utiliser ces valeurs pour trouver une relation entre d
 
 Soit $m$ un message aléatoire distribué (en tant que variable aléatoire) uniformément sur %TODO
 
-Avec les notations introduites dans l'énoncé, on a $A.m = a.m^{(0)}$ et $P(B).x_1 = P(B).F(x_0,K_1) = P(B).(P(S(x_0)\oplus K_1)$.
+Avec les notations introduites dans l'énoncé, on a \[A.m = a.m^{(0)}\] et \[P(B).x_1 = P(B).F(x_0,K_1) = P(B).(P(S(x_0)\oplus K_1)\]
 
 Soit $K_3$ telle que $K_1 = P(K_3)$. On a :
 
-$P(B).x_1 = P(B).(P(S(x_0))\oplus P(K_3)) = P(B).P(S(x_0) \oplus K_3) = B.(S(x_0) \oplus K_3) = b.(S(x_0^{(0)}) \oplus K_3^{(0)})$.
+
+\[
+    \begin{aligned}
+        P(B).x_1 &= P(B).\left (P\left (S\left (x_0\right )\right )\oplus P(K_3)\right ) \\
+        &= P\left (B\right ).P\left (S\left (x_0\right ) \oplus K_3\right )\\
+        &= B.\left (S\left (x_0\right ) \oplus K_3\right ) \\
+        &= b.\left (S\left (x_0^{\left (0\right )}\right ) \oplus K_3^{(0)}\right )
+    \end{aligned}
+\]
 
 D'où $\prob{A.m = P(B).x_1} = \prob{a.m^{(0)}= b.(S(x_0^{(0)}) \oplus K_3^{(0)})}$.
 
@@ -95,9 +103,9 @@ Pour se ramener aux probabilités introduites dans la matrice $L$ (i.e du type $
 Avec ces deux lemmes, on peut maintenant écrire :
 
 \begin{align*}
-\prob{a.m^{(0)}= b.(S(x_0^{(0)}) \oplus K_3^{(0)})} &= \prob{a.m^{(0)} = b.(S(x_0^{(0)}))} \\
-													&= \prob{a.(x^{(0)} \oplus K_0^{(0)}) =  b.(S(x_0^{(0)}))} \\
-													&= \prob{a.x^{(0)} = b.(S(x_0^{(0)}))} \\
+\prob{a.m^{(0)}= b.\left (S\left (x_0^{(0)}\right ) \oplus K_3^{(0)}\right )} &= \prob{a.m^{(0)} = b.(S(x_0^{(0)}))} \\
+													&= \prob{a.\left(x^{(0)} \oplus K_0^{(0)}\right ) =  b.\left (S\left (x_0^{(0)}\right )\right )} \\
+													&= \prob{a.x^{(0)} = b.\left(S\left(x_0^{\left(0\right)}\right)\right)} \\
 													&= \frac{1}{2} \pm \frac{6}{16}
 \end{align*}
 Car $0.125 = \frac{1}{2} - \frac{6}{16}$ et $0.875 = \frac{1}{2} + \frac{6}{16}$.
@@ -113,7 +121,7 @@ De la même manière, ces boxes $S_{2,1}$ et $S_{2,2}$ ne modifient que les 16 p
 
 Ainsi, dans cette première étape, on ne s'intéresse qu'à trouver les 16 premiers bits de la clé $K_2$.
 
-% TODO : faire une figure comme dans le papier, page 13, après confirmation de Vincent Mercredi.
+%TODO : faire une figure comme dans le papier, page 13, après confirmation de Vincent Mercredi.
 
 \section*{Question 6}
 
