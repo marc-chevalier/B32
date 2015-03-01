@@ -106,7 +106,18 @@ D'où $\prob{A.m = P(B).x_1} = \frac{1}{2} \pm \frac{6}{16}$, ce qui permet de c
 
 \section*{Question 5}
 
+On numérote les S-Boxes $S_{1,1}, \dots S_{1,8}$ (premier round), $S_{2,1}, \dots S_{2,8}$ (deuxième round).
+
+En modifiant les 4 premiers bits de l'entrée, on modifie la sortie de $S_{1,1}$, qui modifie (après permutation) l'entrée de $S_{2,1}$ et $S_{2,2}$ uniquement.
+De la même manière, ces boxes $S_{2,1}$ et $S_{2,2}$ ne modifient que les 16 premiers bits de l'output.
+
+Ainsi, dans cette première étape, on ne s'intéresse qu'à trouver les 16 premiers bits de la clé $K_2$.
+
 % TODO : faire une figure comme dans le papier, page 13, après confirmation de Vincent Mercredi.
+
+\section*{Question 6}
+
+
 
 \end{document}
 
