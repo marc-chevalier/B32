@@ -7,7 +7,7 @@
 using namespace std;
 
 linearApproxMatrix::linearApproxMatrix(vector<bitset<BLOC_LENGTH>>SBox) :
-matrix(vector<vector<int>>()), minima(vector<unsigned int>()), maxima(vector<unsigned int>())
+matrix(vector<vector<int>>()), minima(vector<pair<unsigned int, unsigned int>>()), maxima(vector<pair<unsigned int,unsigned int>>())
 {
     // Build the matrix
     matrix.resize(SBox.size());
@@ -60,39 +60,33 @@ void linearApproxMatrix::build_farthest_couples()
 		for(unsigned int b = 0; b < matrix[0].size(); ++b)
 		{
 			if(matrix[a][b] == min)
-            {
-				minima.push_back(a);
-				minima.push_back(b);
-            }
+				minima.push_back(make_pair(a, b));
             else if(matrix[a][b] == max)
-            {
-				maxima.push_back(a);
-                maxima.push_back(b);
-            }
+				maxima.push_back(make_pair(a, b));
         }
 }
 
 void linearApproxMatrix::print_farthest_couples()
 {
-	int min = matrix[minima[0]][minima[1]];
-	int max = matrix[maxima[0]][maxima[1]];
+	int min = matrix[minima[0].first][minima[0].second];
+	int max = matrix[maxima[0].first][maxima[0].second];
 	cout << "Smaller probability : " << (static_cast<double>(min))/(static_cast<double>(matrix.size()));
 	cout << " for the couples :" << endl;
-	for(unsigned int i = 0; i < minima.size()/2; ++i)
-				cout << "(" << minima[2*i]<< "," << minima[2*i+1] << ") ";
+	for(unsigned int i = 0; i < minima.size(); ++i)
+				cout << "(" << minima[i].first<< "," << minima[i].second<< ") ";
 	cout << "\nBigger probability (none 1): " << (static_cast<double>(max))/(static_cast<double>(matrix.size()));
 	cout <<" for the couples :" << endl;
-	for(unsigned int i = 0; i < maxima.size()/2; ++i)
-				cout << "(" << maxima[2*i]<< "," << maxima[2*i+1] << ") ";
+	for(unsigned int i = 0; i < maxima.size(); ++i)
+				cout << "(" << maxima[i].first<< "," << maxima[i].second << ") ";
 	cout << endl;
 }
 
-unsigned int linearApproxMatrix::get_min(unsigned int index)
+pair<unsigned int,unsigned int> linearApproxMatrix::get_min(unsigned int index)
 {
     return minima[index];
 }
 
-unsigned int linearApproxMatrix::get_max(unsigned int index)
+pair<unsigned int,unsigned int> linearApproxMatrix::get_max(unsigned int index)
 {
     return maxima[index];
 }
