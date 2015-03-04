@@ -14,8 +14,8 @@ Chiffre(clefs_, SBox_), nb_plaintext(nb_plaintext_), mat(SBox_)
 void TestQuestion5::experiment(bool verbose)
 {
     unsigned int proba = 0;
-    unsigned int a = mat.get_min(0).first;
-    unsigned int b = mat.get_min(0).first; // Example
+    unsigned int a = mat.get_min(1).first;
+    unsigned int b = mat.get_min(1).first; // Example of couple
     bitset<BLOC_LENGTH> A (a<<(BLOC_LENGTH-4));
     bitset<BLOC_LENGTH> B (b<<(BLOC_LENGTH-4));
     for (unsigned int step = 0; step < nb_plaintext; ++step)
@@ -23,7 +23,7 @@ void TestQuestion5::experiment(bool verbose)
         bitset<BLOC_LENGTH> m = randomPlaintext(verbose);
         bitset<BLOC_LENGTH> x;
         x = m^clefs[0]; // we get x_0
-        x = passe(x,clefs[1]); // we get x_1
+        x = passe(clefs[1],x); // we get x_1
         bitset<BLOC_LENGTH> PB = (B<<(BLOC_LENGTH-2))|(B>>2);
         if (produitScalaire(A,m) == produitScalaire(PB,x))
             proba++;
