@@ -8,13 +8,13 @@ class linearApproxMatrix
 {
 public:
     linearApproxMatrix(std::vector<std::bitset<BLOC_LENGTH>>SBox);
-    ~linearApproxMatrix(){};
+    virtual ~linearApproxMatrix(){};
     void print(std::ostream& flux);
     void build_farthest_couples();
     void print_farthest_couples();
     std::pair<unsigned int, unsigned int> get_min(unsigned int index) __attribute__((pure));
     std::pair<unsigned int, unsigned int> get_max(unsigned int index) __attribute__((pure));
-private:
+protected:
     std::vector<std::vector<int>> matrix;
     std::vector<std::pair<unsigned int, unsigned int>> minima;
     std::vector<std::pair<unsigned int, unsigned int>> maxima;
