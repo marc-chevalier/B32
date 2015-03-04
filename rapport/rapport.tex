@@ -107,9 +107,30 @@ D'où $\prob{A.m = P(B).x_1} = \frac{1}{2} \pm \frac{6}{16}$, ce qui permet de c
 
 \section*{Question 5}
 
-Selon la valeur de $b$, les bits non nuls de $P(B)$ peuvent correspondre à une ou deux Sboxes. C'est ce qu'on entend par les cas "une active box" et "deux active boxes".
+Selon la valeur de $b$, les bits non nuls de $P(B)$ peuvent correspondre à une ou deux Sboxes (le "ou" ayant un sens exclusif ici). C'est ce qu'on entend par les cas "une active box" et "deux active boxes".
 
 Dans le cas "une active box", on peut se limiter à chercher les 4 premiers bits de la clé, car les autres bits n'interviendront pas ( car $0.x = 0$ pour tout x). De la même manière, dans le cas de "deux actives boxes", on peut se limiter à chercher les 8 premiers bits de la clé.
+
+L'algorithme, pour le cas "une active box", qui renvoit les 4 bits les plus probables pour la sous-clé qui nous intéresse est donné ci-dessous.
+
+\begin{algorithm}
+\caption{L'attaque des 4 bits de la clé pouvant être devinés, dans le cas "une active box"}
+	\Entree{Des couples $(m,c)$}
+	\Sortie{La sous-clé $K'_2$ la plus probable}
+	\Pour{chaque couple $(a,b)$ de type "one active box"}
+	{
+		\Pour{chaque clé $K'_2 \in \{0,1\}^4$}
+		{
+			Calculer $x_1 = c \oplus K_2$ ($K_2$ = $K'_2$ complétée par des zéros ailleurs) \\
+			\Si{$A.m = P(B).x_1$}{$Count[K'_2]$++}
+		}
+		$Guess(a,b) = Argmin \left( Count[.] \right)$
+	}
+	\Pour{chaque bit $i$ de la sous-clé à deviner}
+	{
+		Choisir $b$ tel que $b$ apparaît le plus souvent en ième position dans les $Guess(.,.)$.
+	}
+\end{algorithm}
 
 \section*{Question 6}
 
