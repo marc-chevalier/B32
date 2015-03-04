@@ -14,8 +14,8 @@ Chiffre(clefs_, SBox_), nb_plaintext(nb_plaintext_), mat(SBox_)
 void TestQuestion5::experiment(bool verbose)
 {
     unsigned int proba = 0;
-    unsigned int a = mat.get_min(1).first;
-    unsigned int b = mat.get_min(1).first; // Example of couple
+    unsigned int a = mat.get_min(0).first;
+    unsigned int b = mat.get_min(0).second; // Example of couple
     bitset<BLOC_LENGTH> A (a<<(BLOC_LENGTH-4));
     bitset<BLOC_LENGTH> B (b<<(BLOC_LENGTH-4));
     for (unsigned int step = 0; step < nb_plaintext; ++step)
