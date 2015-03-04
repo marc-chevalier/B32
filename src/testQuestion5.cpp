@@ -15,7 +15,7 @@ void TestQuestion5::experiment(bool verbose)
 {
     unsigned int proba = 0;
     unsigned int a = mat.get_min(0).first;
-    unsigned int b = mat.get_min(0).first; // Example
+    unsigned int b = mat.get_min(0).second; // Example
     bitset<BLOC_LENGTH> A (a<<(BLOC_LENGTH-4));
     bitset<BLOC_LENGTH> B (b<<(BLOC_LENGTH-4));
     for (unsigned int step = 0; step < nb_plaintext; ++step)
