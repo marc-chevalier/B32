@@ -27,17 +27,16 @@ bitset<BLOC_LENGTH> Chiffre::depasse(bitset<BLOC_LENGTH> clef, bitset<BLOC_LENGT
 {
     input ^= clef;
     input=((input>>(BLOC_LENGTH-2))|(input<<2));
-    size_t taillePiece = static_cast<size_t>(log2(SBox.size()));
-    size_t nbPiece = input.size()/static_cast<size_t>(taillePiece);
+    size_t nbPiece = input.size()/static_cast<size_t>(PIECE_LENGTH);
     bitset<BLOC_LENGTH> output=0;
 
     for(size_t i=0;i<nbPiece;++i)
     {
-        bitset<BLOC_LENGTH> masque = creerMasque(taillePiece*i, taillePiece*(i+1)-1);
+        bitset<BLOC_LENGTH> masque = creerMasque(PIECE_LENGTH*i, PIECE_LENGTH*(i+1)-1);
         bitset<BLOC_LENGTH> piece = input & masque;
-        piece >>= taillePiece*i;
+        piece >>= PIECE_LENGTH*i;
         piece = invSBox[piece.to_ulong()];
-        piece <<= taillePiece*i;
+        piece <<= PIECE_LENGTH*i;
         output |= piece;
     }
 
@@ -65,17 +64,16 @@ bitset<BLOC_LENGTH> Chiffre::chiffrerBloc(bitset<BLOC_LENGTH> plaintext)
 
 bitset<BLOC_LENGTH> Chiffre::passe(bitset<BLOC_LENGTH> clef, bitset<BLOC_LENGTH> input)
 {
-    size_t taillePiece = static_cast<size_t>(log2(SBox.size()));
-    size_t nbPiece = (input.size())/static_cast<size_t>(taillePiece);
+    size_t nbPiece = (input.size())/static_cast<size_t>(PIECE_LENGTH);
     bitset<BLOC_LENGTH> output=0;
 
     for(size_t i=0;i<nbPiece;++i)
     {
-        bitset<BLOC_LENGTH> masque = creerMasque(taillePiece*i, taillePiece*(i+1)-1);
+        bitset<BLOC_LENGTH> masque = creerMasque(PIECE_LENGTH*i, PIECE_LENGTH*(i+1)-1);
         bitset<BLOC_LENGTH> piece = input & masque;
-        piece >>= taillePiece*i;
+        piece >>= PIECE_LENGTH*i;
         piece = SBox[piece.to_ulong()];
-        piece <<= taillePiece*i;
+        piece <<= PIECE_LENGTH*i;
         output |= piece;
     }
 

@@ -16,8 +16,8 @@ void TestQuestion5::experiment(bool verbose)
     unsigned int proba = 0;
     unsigned int a = mat.get_min(0).first;
     unsigned int b = mat.get_min(0).second; // Example of couple
-    bitset<BLOC_LENGTH> A (a<<(BLOC_LENGTH-4));
-    bitset<BLOC_LENGTH> B (b<<(BLOC_LENGTH-4));
+    bitset<BLOC_LENGTH> A (a<<(BLOC_LENGTH-PIECE_LENGTH));
+    bitset<BLOC_LENGTH> B (b<<(BLOC_LENGTH-PIECE_LENGTH));
     for (unsigned int step = 0; step < nb_plaintext; ++step)
     {
         bitset<BLOC_LENGTH> m = randomPlaintext(verbose);
