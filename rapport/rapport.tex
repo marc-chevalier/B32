@@ -115,7 +115,7 @@ En effet, avec les $A$ et $B$ donnés, les seuls bits de $K_2$ qui vont interven
 Si les bits de $b$ valant $1$ occupent deux groupes de 4 bits différents (qui correspondent aux résultats de 2 boxes différentes), on est dans le "deux actives boxes". C'est le cas de la figure \ref{illustration_bits_key}. Dans ce cas, on peut se limiter à chercher les 8 premiers bits de la clé.
 
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \begin{tikzpicture}
 	\draw[very thick] (8,1) -- (0,1) -- (0,0) -- (8,0) ;
@@ -176,10 +176,12 @@ Dans toute cette table, les bits de $m$ seron notés m = $m_0 m_1\cdots m_n$, et
 
 Par mesure de simplicité, on ne représente qu'une partie des bits nuls de P(B).
 
-\begin{figure}[!h]
+\begin{table}[!ht]
+\centering
+\begin{small}
 \begin{tabular}{|c|c|c|c|c|c|}
 	\hline
-	$(a,b)$   & $p_{a,b}$ & 		$P(B)$ 	   & équation linéaire	 & nombre d'active boxes & bits de $K_2$ à deviner \\
+	$(a,b)$   & $p_{a,b}$ & 		$P(B)$ 	   & équation linéaire	 & \# d'active boxes & bits de $K_2$ à deviner \\
 	\hline
 	$(3,15)$  &   0.125   & $0011110\cdots0$ & $m_2 \oplus m_3 = x_0 \oplus x_1 \oplus x_2 \oplus x_3$ & 2 & 2, 3, 4, 5 \\
 	\hline
@@ -196,8 +198,9 @@ Par mesure de simplicité, on ne représente qu'une partie des bits nuls de P(B)
 	$(10,11)$ &   0.875   & $0010110\cdots0$ & $m_0 \oplus m_2 = x_0 \oplus x_2 \oplus x_3$			   & 2 & 2, 4, 5 \\
 	\hline
 \end{tabular}
+\end{small}
 \caption{Le tableau global regroupant tous les éléments nécessaires à l'attaque}
-\end{figure}
+\end{table}
 
 \section*{Question 7}
 
