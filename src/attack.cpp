@@ -24,7 +24,7 @@ Attack::Attack(vector<bitset<BLOC_LENGTH>> plaintexts_, vector<bitset<BLOC_LENGT
     }
 }
 
-bool isOneActiveBox(unsigned int b) // hypothesis : 0 < b < 16
+bool inline isOneActiveBox(unsigned int b) // hypothesis : 0 < b < 16
 {
     return ((b < 4) || (b % 4 == 0));
 }
