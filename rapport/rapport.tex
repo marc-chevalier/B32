@@ -107,9 +107,47 @@ D'où $\prob{A.m = P(B).x_1} = \frac{1}{2} \pm \frac{6}{16}$, ce qui permet de c
 
 \section*{Question 5}
 
-Selon la valeur de $b$, les bits non nuls de $P(B)$ peuvent correspondre à une ou deux Sboxes (le "ou" ayant un sens exclusif ici). C'est ce qu'on entend par les cas "une active box" et "deux active boxes".
+Selon la valeur de $b$, les bits non nuls de $P(B)$ peuvent correspondre à une ou deux Sboxes (le "ou" ayant un sens exclusif ici). C'est ce qu'on entend par les cas "une active box" et "deux active boxes" (notamment dans la question 8).
 
-Dans le cas "une active box", on peut se limiter à chercher les 4 premiers bits de la clé, car les autres bits n'interviendront pas ( car $0.x = 0$ pour tout x). De la même manière, dans le cas de "deux actives boxes", on peut se limiter à chercher les 8 premiers bits de la clé.
+En effet, avec les $A$ et $B$ donnés, les seuls bits de $K_2$ qui vont intervenir dans le calcul de $P(B).x1$ sont les bits $i$ tels que $P(b)_i \neq 0$. Ces bits font forcément partis des bits de $b$, qui sont situés entre les rangs 2 et 6 (voir figure 
+\ref{illustration_bits_key}).
+
+Si les bits de $b$ valant $1$ occupent deux groupes de 4 bits différents (qui correspondent aux résultats de 2 boxes différentes), on est dans le "deux actives boxes". C'est le cas de la figure \ref{illustration_bits_key}. Dans ce cas, on peut se limiter à chercher les 8 premiers bits de la clé.
+
+
+\begin{figure}[!h]
+\centering
+\begin{tikzpicture}
+	\draw[very thick] (8,1) -- (0,1) -- (0,0) -- (8,0) ;
+	\draw[very thick] (4,0) -- (4,1);
+	\draw[decorate,decoration={brace,raise=0.2cm}] (4,0) -- (0,0) node[below=0.4cm,pos=0.5] {output de la première box};
+	\draw[decorate,decoration={brace,raise=0.2cm}] (8.1,0) -- (4.1,0) node[below=0.4cm,pos=0.5] {output de la seconde box};
+	\draw (1,0) -- (1,1);
+	\draw (2,0) -- (2,1);
+	\draw (3,0) -- (3,1);
+	\draw (5,0) -- (5,1);
+	\draw (6,0) -- (6,1);
+	\draw (7,0) -- (7,1);
+	\draw[very thin] (0.5,0.5) node {$0$};
+	\draw[very thin] (1.5,0.5) node {$0$};
+	\draw[very thin,color=red] (2.5,0.5) node {$1$};
+	\draw[very thin,color=red] (3.5,0.5) node {$1$};
+	\draw[very thin,color=red] (4.5,0.5) node {$0$};
+	\draw[very thin,color=red] (5.5,0.5) node {$1$};
+	\draw[very thin] (6.5,0.5) node {$0$};
+	\draw[very thin] (7.5,0.5) node {$\cdots$};
+	\draw[dashed, very thick, color=red] (1.9,-0.1) -- (5.9,-0.1) -- (5.9,1.1) -- (1.9,1.1) -- cycle;
+	\draw[color=red] (5.5,1.5) node {$b$};
+	\draw (-0.5,0.5) node {$P(B)$};
+\end{tikzpicture}
+\caption{Ici on cherche à deviner 8 bits de $K_2$ (cas "deux actives boxes")}
+\label{illustration_bits_key}
+\end{figure}
+
+
+S'ils occupent un seul groupe, alors on est dans le cas "une active boxe". On peut alors se limiter à deviner les 4 premiers bits (ou les 4 suivants selon $b$) de la clé $K_2$.
+
+Il est facile de voir que l'on est dans le cas "une active boxe" si $b < 3$ (seuls les bits à droite sont non nuls), ou si $4$ divise $b$ (seuls les bits à gauche sont non nuls). 
 
 L'algorithme, pour le cas "une active box", qui renvoit les 4 bits les plus probables pour la sous-clé qui nous intéresse est donné ci-dessous.
 
