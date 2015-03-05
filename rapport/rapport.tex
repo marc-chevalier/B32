@@ -172,7 +172,28 @@ L'algorithme, pour le cas "une active box", qui renvoit les 4 bits les plus prob
 
 \section*{Question 6}
 
+Dans toute cette table, les bits de $m$ seron notés m = $m_0 m_1\cdots m_n$, et les bits de $x_1$ (que l'on renomme $x$) seront notés $x_1 = x_0 x_1 \cdots x_n$. On fera notamment attention au fait que, dans ce tableau, $x_1$ désignera le deuxième bit de $x$ fraichement renommé.
 
+% couples | probability | P(B) | equation | number of active boxes | bits de K_2
+\begin{tabular}{|c|c|c|c|c|c|}
+	\hline
+	$(a,b)$   & $p_{a,b}$ & 		$P(B)$ 	   & équation linéaire	 & nombre d'active boxes & bits de $K_2$ à deviner \\
+	\hline
+	$(3,15)$  &   0.125   & $0011110\cdots$ & $m_2 \oplus m_3 = x_0 \oplus x_1 \oplus x_2 \oplus x_3$ & 2 & 2, 3, 4, 5 \\
+	\hline
+	$(7,7)$   &   0.125   & & & & \\
+	\hline
+	$(9,4)$   &   0.125   & & & &\\
+	\hline
+	$(13,12)$ &   0.125   & & & &\\
+	\hline
+	$(1,5)$   &   0.875   & & & &\\
+	\hline
+	$(4,8)$   &   0.875   & & & &\\
+	\hline
+	$(10,11)$ &   0.875   & & & &\\
+	\hline
+\end{tabular}
 
 \end{document}
 
