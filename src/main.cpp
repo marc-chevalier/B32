@@ -26,12 +26,14 @@ int main(int argc, char* argv[])
         cout<<"    ./B32 -c keys sbox plaintext"<<endl;
         cout<<"    ./B32 -d keys sbox ciphertext"<<endl;
         cout<<"    ./B32 -a sbox"<<endl;
-        cout<<"    ./B32 -e keys sbox"<<endl<<endl;
+        cout<<"    ./B32 -e keys sbox"<<endl;
+        cout<<"    ./B32 -b sbox"<<endl<<endl;
 
         cout<<"-c               Chiffrer"<<endl;
         cout<<"-d               Déchiffrer"<<endl;
         cout<<"-a               Matrice d'approximation linéaire"<<endl;
         cout<<"-e               Expérience de la question 5"<<endl;
+        cout<<"-b               A l'attaque ! Montjoie !"<<endl;
         cout<<"-v               Verbose"<<endl;
         cout<<"-h               Vous y êtes"<<endl;
         cout<<"--help           Vous y êtes"<<endl<<endl;
@@ -106,6 +108,7 @@ int main(int argc, char* argv[])
         }
         Attack attack(bitsetFromArray(Plaintext), bitsetFromArray(Ciphertext),Parseur::parseSBox(arguments.getArgument(0)));
         bitset<BLOC_LENGTH> guess = attack.make_guess(attack.get_min(0),1);
+        (void)guess;
         return EXIT_SUCCESS;
     }
     cout<<"Faites `./B32 --help' ou `./B32 -h' pour plus d'informations."<<endl;
