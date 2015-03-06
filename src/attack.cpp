@@ -27,7 +27,8 @@ Attack::Attack(vector<bitset<BLOC_LENGTH>> plaintexts_, vector<bitset<BLOC_LENGT
         invSBox[SBox_[i].to_ulong()]=std::bitset<BLOC_LENGTH>(i);
 }
 
-// Attack in the case of one active boxes
+// Attack in the general case (no notion of active boxes)
+// Just try to guess the 4 bits of the key (2,3,4,5 if position = 0, with the example of the report)
 
 bitset<BLOC_LENGTH> Attack::make_guess(pair<unsigned int, unsigned int> couple, unsigned int position)
 {
