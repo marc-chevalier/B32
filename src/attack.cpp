@@ -44,7 +44,7 @@ bitset<BLOC_LENGTH> Attack::make_guess(pair<unsigned int, unsigned int> couple, 
 	for (unsigned int key = 0; key < nb_keys; ++key)
 	{
         bitset<BLOC_LENGTH> K2(key);
-        K2 = moveBitsets(K2,position);
+        K2 = moveBitsets(K2,position+2);
         for (unsigned int i = 0; i < ciphertexts.size(); ++i)
         {
             bitset<BLOC_LENGTH> x1 = depasse(K2,ciphertexts[i]);
