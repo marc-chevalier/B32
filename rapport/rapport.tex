@@ -222,9 +222,9 @@ Or on avait établi dans la question 4, en tant que résult intermédiaire que :
 
 $$ \prob{A.m^{(0)} = b.S(x_0^{(0)})} = \frac{1}{2} \pm \frac{6}{16}$$
 
-Ainsi, on peut utiliser exactement la même méthode que précédemment afin de devnir la clé $K_1$, qui est la dernière clé utilisée dans le schéma de chiffrement réduit.
+Ainsi, on peut utiliser exactement la même méthode que précédemment afin de deviner la clé $K_1$, qui est la dernière clé utilisée dans le schéma de chiffrement réduit.
 
-Une fois que l'on a trouvé $K_1$, reste de trouver $K_0$. Cette opération consiste juste à vérifier que pour tout couple $(m,x_1)$ utilisé précédemment, on a avec la clé trouvée que $m \oplus F^{-1}(x_1,K_1) = m \oplus x_0 = K_0$ qui est un message constant, qui correspond à la clé recherchée.
+Une fois que l'on a trouvé $K_1$, il reste à trouver $K_0$. Cette opération consiste juste à vérifier que pour tout couple $(m,x_1)$ utilisé précédemment, on a avec la clé trouvée que $m \oplus F^{-1}(x_1,K_1) = m \oplus x_0 = K_0$ qui est un message constant, qui correspond à la clé recherchée.
 
 A partir des trois clés $K_2$, $K_1$ et $K_0$, il est facile de retrouver la clé $K$ à partir de la table des permutations utilisées pour construire les trois clés. De plus, on peut vérifier pendant cette étape que l'on a effectivement bien trouver les bonnes clés lors des étapes précédentes.
 
