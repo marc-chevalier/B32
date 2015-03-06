@@ -7,8 +7,13 @@
 #include "../include/argumentsParseur.h"
 #include "../include/linearApproxMatrix.h"
 #include "../include/testQuestion5.h"
+#include "../include/attack.h"
+#include "../include/datas.h"
 
 using namespace std;
+
+extern int Plaintext[100][32];
+extern int Ciphertext[100][32];
 
 int main(int argc, char* argv[])
 {
@@ -89,6 +94,18 @@ int main(int argc, char* argv[])
         TestQuestion5 test(Parseur::parseClefs(arguments.getArgument(0)), Parseur::parseSBox(arguments.getArgument(1)), 10000);
         test.experiment(arguments.getOption("v"));
         return EXIT_SUCCESS;
+    }
+    if(arguments.getOption("b")) // like BREAK
+    {
+        if(arguments.nbArguments()!=1)
+        {
+            cout<<endl<<"Syntaxe :"<<endl;
+            cout<<"./B32 -b sbox"<<endl;
+            cout<<"Faites `./B32 --help' ou `./B32 -h' pour plus d'informations."<<endl;
+            return EXIT_FAILURE;
+        }
+        Attack attack(bitsetFromArray(Plaintext), bitsetFromArray(Ciphertext),Parseur::parseSBox(arguments.getArgument(0)));
+        bitset<BLOC_LENGTH> guess = attack.make_guess(0,0,1);
     }
     cout<<"Faites `./B32 --help' ou `./B32 -h' pour plus d'informations."<<endl;
     return EXIT_FAILURE;
