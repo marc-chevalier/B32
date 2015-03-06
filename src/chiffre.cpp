@@ -89,9 +89,18 @@ bitset<BLOC_LENGTH> Chiffre::creerMasque(size_t debut, size_t fin)
     return sortie;
 }
 
-Chiffre::Chiffre(std::vector<std::bitset<BLOC_LENGTH>> clefs_, std::vector<std::bitset<BLOC_LENGTH>>SBox_) :
-clefs(clefs_), SBox(SBox_), invSBox(std::vector<std::bitset<BLOC_LENGTH>>(SBox_.size()))
+Chiffre::Chiffre(vector<bitset<BLOC_LENGTH>> clefs_, vector<bitset<BLOC_LENGTH>>SBox_) :
+clefs(clefs_), SBox(SBox_), invSBox(vector<bitset<BLOC_LENGTH>>(SBox_.size()))
 {
     for(unsigned int i=0;i<SBox.size();++i)
-        invSBox[SBox[i].to_ulong()]=std::bitset<BLOC_LENGTH>(i);
+        invSBox[SBox[i].to_ulong()]=bitset<BLOC_LENGTH>(i);
 }
+
+Chiffre::Chiffre(vector<bitset<BLOC_LENGTH>> SBox_) : // for attack, unknown keys
+clefs(vector<bitset<BLOC_LENGTH>>()), SBox(SBox_), invSBox(vector<bitset<BLOC_LENGTH>>(SBox_.size()))
+{
+    for(unsigned int i=0;i<SBox.size();++i)
+        invSBox[SBox[i].to_ulong()]=bitset<BLOC_LENGTH>(i);
+}
+
+

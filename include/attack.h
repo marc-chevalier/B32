@@ -5,16 +5,15 @@
 #include <vector>
 
 
-class Attack : public linearApproxMatrix {
+class Attack : public linearApproxMatrix, public Chiffre {
 public:
     Attack(std::vector<std::bitset<BLOC_LENGTH>> plaintexts_, std::vector<std::bitset<BLOC_LENGTH>> ciphertexts_, std::vector<std::bitset<BLOC_LENGTH>>SBox_);
     ~Attack() {};
-    std::bitset<BLOC_LENGTH> make_guess(unsigned int a, unsigned int b, unsigned int position);
+    std::bitset<BLOC_LENGTH> make_guess(std::pair<unsigned int, unsigned int> couple, unsigned int position);
 
 private:
     std::vector<std::bitset<BLOC_LENGTH>> plaintexts;
     std::vector<std::bitset<BLOC_LENGTH>> ciphertexts;
-    std::vector<std::bitset<BLOC_LENGTH>> invSBox;
     std::vector<std::pair<unsigned int, unsigned int>> one_active_pairs;
     std::vector<std::pair<unsigned int, unsigned int>> two_active_pairs;
 

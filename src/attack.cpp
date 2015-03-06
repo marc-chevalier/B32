@@ -5,8 +5,7 @@
 using namespace std;
 
 Attack::Attack(vector<bitset<BLOC_LENGTH>> plaintexts_, vector<bitset<BLOC_LENGTH>> ciphertexts_, vector<bitset<BLOC_LENGTH>>SBox_)
-: linearApproxMatrix(SBox_), plaintexts(plaintexts_), ciphertexts(ciphertexts_),
-  invSBox(std::vector<std::bitset<BLOC_LENGTH>>(SBox_.size())),
+: linearApproxMatrix(SBox_),  Chiffre(SBox_), plaintexts(plaintexts_), ciphertexts(ciphertexts_),
   one_active_pairs(vector<pair<unsigned int, unsigned int>>()), two_active_pairs(vector<pair<unsigned int, unsigned int>>())
 {
     for (auto couple : minima)
@@ -30,14 +29,27 @@ Attack::Attack(vector<bitset<BLOC_LENGTH>> plaintexts_, vector<bitset<BLOC_LENGT
 
 // Attack in the case of one active boxes
 
-bitset<BLOC_LENGTH> Attack::make_guess(unsigned int a, unsigned int b, unsigned int position)
+bitset<BLOC_LENGTH> Attack::make_guess(pair<unsigned int, unsigned int> couple, unsigned int position)
 {
     unsigned int nb_keys = static_cast<unsigned int>(pow(2.0,static_cast<double>(PIECE_LENGTH)));
+    vector<unsigned int> frequencies(nb_keys,0);
+    bitset<BLOC_LENGTH> A(couple.first);
+    A = A<<(BLOC_LENGTH-PIECE_LENGTH*position);
+    bitset<BLOC_LENGTH> PB(couple.second);
+    PB = PB<<(BLOC_LENGTH-PIECE_LENGTH*position);
+    PB = (PB<<BLOC_LENGTH-2)|(PB>>2);
 	for (unsigned int key = 0; key < nb_keys; ++key)
 	{
         bitset<BLOC_LENGTH> K2(key);
         K2 = moveKey(K2,position);
         // cout << K2 << endl; // Check of moveKey
+        for (unsigned int i = 0; i < ciphertexts.size(); ++i)
+        {
+            bitset<BLOC_LENGTH> x1 = depasse(K2,ciphertexts[i]);
+            if (produitScalaire(A,plaintexts[i]) == produitScalaire(PB,x1))
+                frequencies[key]++;
+        }
+        cout << "Frequency of " << key << " : " << frequencies[key] << endl;
 	}
 	bitset<BLOC_LENGTH> guess(0);
     return guess;
