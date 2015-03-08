@@ -32,7 +32,7 @@ unsigned int Attack::make_guess(bool active_box, unsigned int position)
     unsigned int nb_keys = static_cast<unsigned int>(pow(2.0,static_cast<double>(PIECE_LENGTH)));
     vector<int> biais(nb_keys,0);
     vector<pair<unsigned int, unsigned int>> couples;
-    if (active_box) // one active box
+    if (active_box) // une active boxe
         couples = one_active_pairs;
     else
         couples = two_active_pairs;
@@ -57,7 +57,7 @@ unsigned int Attack::make_guess(bool active_box, unsigned int position)
         }
     }
 
-	// Find the good guess = greatest biais
+	// Trouver le bon pari = écart le plus important de la moyenne
 	unsigned int good_guess = 0;
     for (unsigned int key = 0; key < nb_keys; ++key)
         if (biais[key] > biais[good_guess])
@@ -79,7 +79,7 @@ bitset<BLOC_LENGTH> Attack::find_K2(bool active_box)
     return result;
 }
 
-// Build all the x1
+// Construire tous les x1, une fois K2 trouvée
 
 void Attack::depasse_ciphertexts(bitset<BLOC_LENGTH> K)
 {
@@ -87,7 +87,7 @@ void Attack::depasse_ciphertexts(bitset<BLOC_LENGTH> K)
         ciphertexts[i] = depasse(K,ciphertexts[i]);
 }
 
-// Check the key relation of Question 9 --> helps to find the correct keys K0 and K1
+// Vérifier la relation de la question 9 entre les bits des clés
 
 bool Attack::check_keys(bitset<BLOC_LENGTH> K0, bitset<BLOC_LENGTH> K1, bitset<BLOC_LENGTH> K2, unsigned int position)
 {
@@ -130,12 +130,12 @@ bool Attack::check_keys(bitset<BLOC_LENGTH> K0, bitset<BLOC_LENGTH> K1, bitset<B
     }
 }
 
-// find each subkey of K0 and K1 (cf Question 9)
+// Trouver une partie de K0 et K1 (cf Question 9)
 
 pair<bitset<BLOC_LENGTH>, bitset<BLOC_LENGTH>>  Attack::find_sub_K0_K1(bitset<BLOC_LENGTH> K2, unsigned int position)
 {
     unsigned int nb_keys = static_cast<unsigned int>(pow(2.0,static_cast<double>(PIECE_LENGTH)));
-    vector<unsigned int> ok(nb_keys,0);
+    vector<unsigned int> check(nb_keys,0);
     for (unsigned int key = 0; key < nb_keys; ++key)
     {
         bitset<BLOC_LENGTH> K0(key); // guess K0
@@ -144,15 +144,17 @@ pair<bitset<BLOC_LENGTH>, bitset<BLOC_LENGTH>>  Attack::find_sub_K0_K1(bitset<BL
         {
             bitset<BLOC_LENGTH> K1 = passe(ciphertexts[i],plaintexts[i]^K0);
             if (check_keys(K0,K1,K2,position))
-                ok[key]++;
+                check[key]++;
         }
     }
+
+    // Trouver la sous-clé qui satisfait le plus de couples (c'est à dire tous les couples)
     unsigned int subkey0 = 0;
     for (unsigned int key = 0; key < nb_keys; ++key)
-        if (ok[key] > ok[subkey0])
+        if (check[key] > check[subkey0])
             subkey0 = key;
 
-    // Build the two subkeys and return them
+    // Reconstruire les deux sous-clés et les renvoyer
     bitset<BLOC_LENGTH> good_K0(subkey0);
     good_K0 = moveBitsets(good_K0, static_cast<unsigned int>(PIECE_LENGTH*position));
     bitset<BLOC_LENGTH> good_K1 = passe(ciphertexts[0],plaintexts[0]^good_K0);
@@ -162,7 +164,7 @@ pair<bitset<BLOC_LENGTH>, bitset<BLOC_LENGTH>>  Attack::find_sub_K0_K1(bitset<BL
     return pair<bitset<BLOC_LENGTH>, bitset<BLOC_LENGTH>>(good_K0,good_K1) ;
 }
 
-// FIn the secret key : just use the table of Question 9
+// Trouver la clé secrète : juste utiliser la table de la question 9
 
 bitset<BLOC_LENGTH> Attack::build_secret_key(bitset<BLOC_LENGTH> K0, bitset<BLOC_LENGTH> K1, bitset<BLOC_LENGTH> K2)
 {
@@ -200,7 +202,7 @@ bitset<BLOC_LENGTH> Attack::build_secret_key(bitset<BLOC_LENGTH> K0, bitset<BLOC
     K[30] = K2[3];
     K[31] = K2[15];
     return K;
-    }
+}
 
 void Attack::find_all_keys(bool active_box)
 {
@@ -221,7 +223,9 @@ void Attack::find_all_keys(bool active_box)
     cout << "K = " << K << endl;
 }
 
-std::bitset<BLOC_LENGTH> moveBitsets(std::bitset<BLOC_LENGTH> Key, unsigned int position) // Works correctly
+// Déplacer un bloc de taille 4, pour deviner les blocs successifs
+
+std::bitset<BLOC_LENGTH> moveBitsets(std::bitset<BLOC_LENGTH> Key, unsigned int position)
 {
     int shift = BLOC_LENGTH - static_cast<int>(position) - PIECE_LENGTH;
     if (shift >= 0)
@@ -231,7 +235,7 @@ std::bitset<BLOC_LENGTH> moveBitsets(std::bitset<BLOC_LENGTH> Key, unsigned int 
 }
 
 
-bool inline isOneActiveBox(unsigned int b) // hypothesis : 0 < b < 16
+bool inline isOneActiveBox(unsigned int b) // hypothese : 0 < b < 16
 {
     return ((b < 4) || (b % 4 == 0));
 }
