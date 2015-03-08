@@ -9,8 +9,8 @@ class Attack : public linearApproxMatrix, public Chiffre {
 public:
     Attack(std::vector<std::bitset<BLOC_LENGTH>> plaintexts_, std::vector<std::bitset<BLOC_LENGTH>> ciphertexts_, std::vector<std::bitset<BLOC_LENGTH>>SBox_);
     ~Attack() {};
-    unsigned int make_guess(std::pair<unsigned int, unsigned int> couple, unsigned int position);
-    std::bitset<BLOC_LENGTH> find_K2(std::pair<unsigned int, unsigned int> couple);
+    unsigned int make_guess(std::pair<unsigned int, unsigned int> couple, unsigned int position, bool verbose);
+    std::bitset<BLOC_LENGTH> find_K2(std::pair<unsigned int, unsigned int> couple, bool verbose);
 
 private:
     std::vector<std::bitset<BLOC_LENGTH>> plaintexts;

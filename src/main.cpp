@@ -109,7 +109,7 @@ int main(int argc, char* argv[])
         Attack attack(bitsetFromArray(Plaintext), bitsetFromArray(Ciphertext),Parseur::parseSBox(arguments.getArgument(0)));
         pair<unsigned int, unsigned int> couple = attack.get_max(2);
         cout << "a = " << couple.first << ", b = " << couple.second << endl;
-        bitset<BLOC_LENGTH> guess = attack.find_K2(couple);
+        bitset<BLOC_LENGTH> guess = attack.find_K2(couple, arguments.getOption("v"));
         cout << guess << endl;
         return EXIT_SUCCESS;
     }

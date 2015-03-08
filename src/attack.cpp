@@ -31,16 +31,18 @@ Attack::Attack(vector<bitset<BLOC_LENGTH>> plaintexts_, vector<bitset<BLOC_LENGT
 // Just try to guess the 4 bits of the key (2,3,4,5 if position = 0, with the example of the report)
 // greatest = greatest couple or not
 
-unsigned int Attack::make_guess(pair<unsigned int, unsigned int> couple, unsigned int position)
+unsigned int Attack::make_guess(pair<unsigned int, unsigned int> couple, unsigned int position, bool verbose)
 {
     unsigned int nb_keys = static_cast<unsigned int>(pow(2.0,static_cast<double>(PIECE_LENGTH)));
     vector<int> frequencies(nb_keys,0);
     bitset<BLOC_LENGTH> A(couple.first);
     A = moveBitsets(A,PIECE_LENGTH*position);
-    cout << "A = " << A << endl; // OK
+    if(verbose)
+        cout << "A = " << A << endl; // OK
     bitset<BLOC_LENGTH> PB(couple.second);
     PB = moveBitsets(PB,PIECE_LENGTH*position+2);
-    cout << "P(B) = " << PB << endl; // OK
+    if(verbose)
+        cout << "P(B) = " << PB << endl; // OK
 	for (unsigned int key = 0; key < nb_keys; ++key)
 	{
         bitset<BLOC_LENGTH> K2(key);
@@ -51,7 +53,8 @@ unsigned int Attack::make_guess(pair<unsigned int, unsigned int> couple, unsigne
             if (produitScalaire(A,plaintexts[i]) == produitScalaire(PB,x1))
                 frequencies[key]++;
         }
-        cout << "Frequency of " << K2 << " : " << frequencies[key] << endl;
+        if(verbose)
+            cout << "Frequency of " << K2 << " : " << frequencies[key] << endl;
 	}
 	// Compute biais
 	for (unsigned int j = 0; j < nb_keys; ++j)
@@ -65,14 +68,15 @@ unsigned int Attack::make_guess(pair<unsigned int, unsigned int> couple, unsigne
 	return good_guess;
 }
 
-bitset<BLOC_LENGTH> Attack::find_K2(pair<unsigned int, unsigned int> couple)
+bitset<BLOC_LENGTH> Attack::find_K2(pair<unsigned int, unsigned int> couple, bool verbose)
 {
     bitset<BLOC_LENGTH> result(0);
     for (unsigned int position = 0; position < BLOC_LENGTH/PIECE_LENGTH; ++position)
     {
-        unsigned int guess = make_guess(couple,position);
+        unsigned int guess = make_guess(couple,position,verbose);
         bitset<BLOC_LENGTH> subkey(guess);
-        cout << guess << endl;
+        if(verbose)
+            cout << guess << endl;
         subkey = moveBitsets(subkey,PIECE_LENGTH*position + 2);
         result |= subkey;
     }
