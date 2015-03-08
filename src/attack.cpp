@@ -47,8 +47,6 @@ unsigned int Attack::make_guess(pair<unsigned int, unsigned int> couple, unsigne
         K2 = moveBitsets(K2,PIECE_LENGTH*position+2); // OK
         for (unsigned int i = 0; i < ciphertexts.size(); ++i)
         {
-            if (key == 0)
-                cout << plaintexts[i] << endl;
             bitset<BLOC_LENGTH> x1 = depasse(K2,ciphertexts[i]);
             if (produitScalaire(A,plaintexts[i]) == produitScalaire(PB,x1))
                 frequencies[key]++;
