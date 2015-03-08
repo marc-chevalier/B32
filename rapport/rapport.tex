@@ -147,27 +147,28 @@ Si les bits de $b$ valant $1$ occupent deux groupes de 4 bits différents (qui c
 
 S'ils occupent un seul groupe, alors on est dans le cas "une active boxe". On peut alors se limiter à deviner les 4 premiers bits (ou les 4 suivants selon $b$) de la clé $K_2$.
 
-Il est facile de voir que l'on est dans le cas "une active boxe" si $b < 3$ (seuls les bits à droite sont non nuls), ou si $4$ divise $b$ (seuls les bits à gauche sont non nuls). 
+Il est facile de voir que l'on est dans le cas "une active boxe" si $b < 3$ (seuls les bits à droite sont non nuls), ou si $4$ divise $b$ (seuls les bits à gauche sont non nuls).
 
-L'algorithme, pour le cas "une active box", qui renvoit les 4 bits les plus probables pour la sous-clé qui nous intéresse est donné ci-dessous.
+L'algorithme qui renvoit les 4 bits les plus probables pour la sous-clé qui nous intéresse est donné ci-dessous. Nous détaillerons le choix de l'algorithme à la question 8.
 
 \begin{algorithm}
-\caption{L'attaque des 4 bits de la clé pouvant être devinés, dans le cas "une active box"}
+\caption{L'attaque des 4 bits de la clé pouvant être devinés}
 	\Entree{Des couples $(m,c)$}
 	\Sortie{La sous-clé $K'_2$ la plus probable}
-	\Pour{chaque couple $(a,b)$ de type "one active box"}
+	\Pour{chaque couple $(a,b)$ du bon type (une ou deux actives boxes)}
 	{
 		\Pour{chaque clé $K'_2 \in \{0,1\}^4$}
 		{
-			Calculer $x_1 = c \oplus K_2$ ($K_2$ = $K'_2$ complétée par des zéros ailleurs) \\
-			\Si{$A.m = P(B).x_1$}{$Count[K'_2]$++}
+			\Pour{Chaque couple $(m,c)$}
+			{
+				Calculer $x_1 = c \oplus K_2$ ($K_2$ = $K'_2$ complétée par des zéros ailleurs) \\
+				\Si{$A.m = P(B).x_1$}{$Count[K'_2]$++}
+			}
+		$Biais[K'_2] = | Count[K'_2] - \# texts |$
 		}
-		$Guess(a,b) = Argmin \left( Count[.] \right)$
+		
 	}
-	\Pour{chaque bit $i$ de la sous-clé à deviner}
-	{
-		Choisir $b$ tel que $b$ apparaît le plus souvent en ième position dans les $Guess(.,.)$.
-	}
+	\Retour{$Argmin \left( Biais[.] \right)$}
 \end{algorithm}
 
 \section*{Question 6}
@@ -207,6 +208,12 @@ Par mesure de simplicité, on ne représente qu'une partie des bits nuls de P(B)
 %TODO : Trouver le pari spécifique à un couple (a,b)
 
 \section*{Question 8}
+
+\subsection*{Efficacité des deux méthodes}
+
+Plusieurs méthodes ont été testées : couple par couple, moyenne des couples (une ou deux actives boxes). Tout d'abord, les différents couples ne donnent pas en soi les mêmes clés $K_2$, et sachant que l'on a peu de couples $(a,b)$, on ne pouvait pas choisir lequel des paquet de 4 bits prendre à chaque passe. Nous avons donc implémenté une méthode qui choisit la bonne clé en regardant la somme des biais (écart à la valeur moyenne). Cette méthode fonctionne très bien avec deux actives boxes, par contre on a quelques erreurs avec une seule active box. En effet, avec les couples données, par exemple, seuls les bits 2 et 3 peuvent être facilement déduits d'après le tableau. Ceci est du au fait que tous les $b$ sont dans une seule des catégories énoncées en question 5 (en l'occurence, $b$ multiple de $4$).
+
+\subsection*{Complexité}
 
 %TODO : Ici, il faudra comparer les deux méthodes par rapport à la vitesse d'exécution et au nombre d'opérations effectuées
 

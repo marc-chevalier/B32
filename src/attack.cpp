@@ -31,49 +31,56 @@ Attack::Attack(vector<bitset<BLOC_LENGTH>> plaintexts_, vector<bitset<BLOC_LENGT
 // Just try to guess the 4 bits of the key (2,3,4,5 if position = 0, with the example of the report)
 // greatest = greatest couple or not
 
-unsigned int Attack::make_guess(pair<unsigned int, unsigned int> couple, unsigned int position, bool verbose)
+unsigned int Attack::make_guess(bool active_box, unsigned int position, bool verbose)
 {
     unsigned int nb_keys = static_cast<unsigned int>(pow(2.0,static_cast<double>(PIECE_LENGTH)));
-    vector<int> frequencies(nb_keys,0);
-    bitset<BLOC_LENGTH> A(couple.first);
-    A = moveBitsets(A,PIECE_LENGTH*position);
-    if(verbose)
-        cout << "A = " << A << endl; // OK
-    bitset<BLOC_LENGTH> PB(couple.second);
-    PB = moveBitsets(PB,PIECE_LENGTH*position+2);
-    if(verbose)
-        cout << "P(B) = " << PB << endl; // OK
-	for (unsigned int key = 0; key < nb_keys; ++key)
-	{
-        bitset<BLOC_LENGTH> K2(key);
-        K2 = moveBitsets(K2,PIECE_LENGTH*position+2); // OK
-        for (unsigned int i = 0; i < ciphertexts.size(); ++i)
-        {
-            bitset<BLOC_LENGTH> x1 = depasse(K2,ciphertexts[i]);
-            if (produitScalaire(A,plaintexts[i]) == produitScalaire(PB,x1))
-                frequencies[key]++;
-        }
+    vector<int> biais(nb_keys,0);
+    vector<pair<unsigned int, unsigned int>> couples;
+    if (active_box) // one active box
+        couples = one_active_pairs;
+    else
+        couples = two_active_pairs;
+    for (unsigned int k = 0; k < couples.size(); ++k)
+    {
+
+        bitset<BLOC_LENGTH> A(couples[k].first);
+        A = moveBitsets(A,PIECE_LENGTH*position);
         if(verbose)
-            cout << "Frequency of " << K2 << " : " << frequencies[key] << endl;
-	}
-	// Compute biais
-	for (unsigned int j = 0; j < nb_keys; ++j)
-        frequencies[j] = abs(frequencies[j] - static_cast<int>(ciphertexts.size())/2);
+            cout << "A = " << A << endl; // OK
+        bitset<BLOC_LENGTH> PB(couples[k].second);
+        PB = moveBitsets(PB,PIECE_LENGTH*position+2);
+        if(verbose)
+            cout << "P(B) = " << PB << endl; // OK
+        for (unsigned int key = 0; key < nb_keys; ++key)
+        {
+            int frequency = 0;
+            bitset<BLOC_LENGTH> K2(key);
+            K2 = moveBitsets(K2,PIECE_LENGTH*position+2); // OK
+            for (unsigned int i = 0; i < ciphertexts.size(); ++i)
+            {
+                bitset<BLOC_LENGTH> x1 = depasse(K2,ciphertexts[i]);
+                if (produitScalaire(A,plaintexts[i]) == produitScalaire(PB,x1))
+                    frequency++;
+            }
+            biais[key] += abs(frequency - static_cast<int>(ciphertexts.size())/2);
+        }
+    }
 
 	// Find the good guess = greatest biais
 	unsigned int good_guess = 0;
-    for (unsigned int j = 0; j < nb_keys; ++j)
-        if (frequencies[j] > frequencies[good_guess])
-            good_guess = j;
+    for (unsigned int key = 0; key < nb_keys; ++key)
+        if (biais[key] > biais[good_guess])
+            good_guess = key;
+
 	return good_guess;
 }
 
-bitset<BLOC_LENGTH> Attack::find_K2(pair<unsigned int, unsigned int> couple, bool verbose)
+bitset<BLOC_LENGTH> Attack::find_K2(bool active_box, bool verbose)
 {
     bitset<BLOC_LENGTH> result(0);
     for (unsigned int position = 0; position < BLOC_LENGTH/PIECE_LENGTH; ++position)
     {
-        unsigned int guess = make_guess(couple,position,verbose);
+        unsigned int guess = make_guess(active_box, position, verbose);
         bitset<BLOC_LENGTH> subkey(guess);
         if(verbose)
             cout << guess << endl;
