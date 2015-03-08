@@ -89,7 +89,7 @@ void Attack::depasse_ciphertexts(bitset<BLOC_LENGTH> K)
 
 // Check the key relation of Question 9 --> helps to find the correct keys K0 and K1
 
-bool Attack::check_keys(bitset<BLOC_LENGTH> K0, bitset<BLOC_LENGTH> K1, bitset<BLOC_LENGTH> K2, int position)
+bool Attack::check_keys(bitset<BLOC_LENGTH> K0, bitset<BLOC_LENGTH> K1, bitset<BLOC_LENGTH> K2, unsigned int position)
 {
     switch (position)
     {
@@ -132,7 +132,7 @@ bool Attack::check_keys(bitset<BLOC_LENGTH> K0, bitset<BLOC_LENGTH> K1, bitset<B
 
 // find each subkey of K0 and K1 (cf Question 9)
 
-pair<bitset<BLOC_LENGTH>, bitset<BLOC_LENGTH>>  Attack::find_sub_K0_K1(bitset<BLOC_LENGTH> K2, int position)
+pair<bitset<BLOC_LENGTH>, bitset<BLOC_LENGTH>>  Attack::find_sub_K0_K1(bitset<BLOC_LENGTH> K2, unsigned int position)
 {
     unsigned int nb_keys = static_cast<unsigned int>(pow(2.0,static_cast<double>(PIECE_LENGTH)));
     vector<unsigned int> ok(nb_keys,0);
