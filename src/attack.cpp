@@ -162,6 +162,46 @@ pair<bitset<BLOC_LENGTH>, bitset<BLOC_LENGTH>>  Attack::find_sub_K0_K1(bitset<BL
     return pair<bitset<BLOC_LENGTH>, bitset<BLOC_LENGTH>>(good_K0,good_K1) ;
 }
 
+// FIn the secret key : just use the table of Question 9
+
+bitset<BLOC_LENGTH> Attack::build_secret_key(bitset<BLOC_LENGTH> K0, bitset<BLOC_LENGTH> K1, bitset<BLOC_LENGTH> K2)
+{
+    bitset<BLOC_LENGTH> K(0);
+    K[0] = K2[14];
+    K[1] = K2[22];
+    K[2] = K1[22];
+    K[3] = K1[21];
+    K[4] = K2[31];
+    K[5] = K2[16];
+    K[6] = K1[11];
+    K[7] = K0[26];
+    K[8] = K1[0];
+    K[9] = K0[10];
+    K[10] = K1[24];
+    K[11] = K2[8];
+    K[12] = K2[28];
+    K[13] = K1[27];
+    K[14] = K1[20];
+    K[15] = K2[24];
+    K[16] = K2[17];
+    K[17] = K2[19];
+    K[18] = K2[5];
+    K[19] = K2[2];
+    K[20] = K2[13];
+    K[21] = K2[12];
+    K[22] = K2[27];
+    K[23] = K2[29];
+    K[24] = K2[30];
+    K[25] = K0[15];
+    K[26] = K2[20];
+    K[27] = K0[20];
+    K[28] = K2[1];
+    K[29] = K2[23];
+    K[30] = K2[3];
+    K[31] = K2[15];
+    return K;
+    }
+
 void Attack::find_all_keys(bool active_box)
 {
     bitset<BLOC_LENGTH> K2 = find_K2(active_box);
@@ -174,9 +214,11 @@ void Attack::find_all_keys(bool active_box)
         K0 |= paire.first;
         K1 |= paire.second;
     }
+    bitset<BLOC_LENGTH> K = build_secret_key(K0,K1,K2);
     cout << "K0 = " << K0 << endl;
     cout << "K1 = " << K1 << endl;
     cout << "K2 = " << K2 << endl;
+    cout << "K = " << K << endl;
 }
 
 std::bitset<BLOC_LENGTH> moveBitsets(std::bitset<BLOC_LENGTH> Key, unsigned int position) // Works correctly

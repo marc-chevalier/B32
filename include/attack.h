@@ -14,6 +14,7 @@ public:
     std::bitset<BLOC_LENGTH> find_K2(bool active_box);
     bool inline check_keys(std::bitset<BLOC_LENGTH> K0, std::bitset<BLOC_LENGTH> K1, std::bitset<BLOC_LENGTH> K2, int position);
     std::pair<std::bitset<BLOC_LENGTH>, std::bitset<BLOC_LENGTH>> find_sub_K0_K1(std::bitset<BLOC_LENGTH> K2, int position);
+    std::bitset<BLOC_LENGTH> build_secret_key(std::bitset<BLOC_LENGTH> K0, std::bitset<BLOC_LENGTH> K1, std::bitset<BLOC_LENGTH> K2);
     void find_all_keys(bool active_box);
 
 private:
