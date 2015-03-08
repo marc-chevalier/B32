@@ -149,7 +149,7 @@ S'ils occupent un seul groupe, alors on est dans le cas "une active boxe". On pe
 
 Il est facile de voir que l'on est dans le cas "une active boxe" si $b < 3$ (seuls les bits à droite sont non nuls), ou si $4$ divise $b$ (seuls les bits à gauche sont non nuls).
 
-L'algorithme qui renvoit les 4 bits les plus probables pour la sous-clé qui nous intéresse est donné ci-dessous. Dans cet algorithme, nous ne devinons que 4 bits pour les deux méthodes. Nous expliquerons ce choix à la question 8.
+L'algorithme qui renvoie les 4 bits les plus probables pour la sous-clé qui nous intéresse est donné ci-dessous. Dans cet algorithme, nous ne devinons que 4 bits pour les deux méthodes. Nous expliquerons ce choix à la question 8.
 
 \begin{algorithm}
 \caption{L'attaque des 4 bits de la clé pouvant être devinés}
@@ -173,7 +173,7 @@ L'algorithme qui renvoit les 4 bits les plus probables pour la sous-clé qui nou
 
 \section*{Question 6}
 
-Dans toute cette table, les bits de $m$ seron notés m = $m_0 m_1\cdots m_n$, et les bits de $x_1$ (que l'on renomme $x$) seront notés $x_1 = x_0 x_1 \cdots x_n$. On fera notamment attention au fait que, dans ce tableau, $x_1$ désignera le deuxième bit de $x$ fraîchement renommé.
+Dans toute cette table, les bits de $m$ seront notés m = $m_0 m_1\cdots m_n$, et les bits de $x_1$ (que l'on renomme $x$) seront notés $x_1 = x_0 x_1 \cdots x_n$. On fera notamment attention au fait que, dans ce tableau, $x_1$ désignera le deuxième bit de $x$ fraîchement renommé.
 
 Par mesure de simplicité, on ne représente qu'une partie des bits nuls de P(B).
 
@@ -211,7 +211,7 @@ Par mesure de simplicité, on ne représente qu'une partie des bits nuls de P(B)
 
 \subsection*{Efficacité des deux méthodes}
 
-Plusieurs méthodes ont été testées : couple par couple, moyenne des couples (une ou deux actives boxes). Tout d'abord, les différents couples ne donnent pas en soi les mêmes clés $K_2$, et sachant que l'on a peu de couples $(a,b)$, on ne pouvait pas choisir lequel des paquet de 4 bits prendre à chaque passe. Nous avons donc implémenté une méthode qui choisit la bonne clé en regardant la somme des biais (écart à la valeur moyenne). Cette méthode fonctionne très bien avec deux actives boxes, par contre on observe quelques erreurs avec une seule active box pour certains choix de couples, alors que pour d'autres le résultat est identique. En effet, avec les couples données, par exemple seuls les bits 2 et 3 peuvent être facilement déduits d'après le tableau (ce qui n'est pas le cas des bits 4 et 5). Ceci est du au fait que tous les $b$ sont dans une seule des deux catégories énoncées en question 5 (en l'occurence, $b$ multiple de $4$).
+Plusieurs méthodes ont été testées : couple par couple, moyenne des couples (une ou deux actives boxes). Tout d'abord, les différents couples ne donnent pas en soi les mêmes clés $K_2$, et sachant que l'on a peu de couples $(a,b)$, on ne pouvait pas choisir lequel des paquet de 4 bits prendre à chaque passe. Nous avons donc implémenté une méthode qui choisit la bonne clé en regardant la somme des biais (écart à la valeur moyenne). Cette méthode fonctionne très bien avec deux actives boxes, par contre on observe quelques erreurs avec une seule active box pour certains choix de couples, alors que pour d'autres le résultat est identique. En effet, avec les couples données, par exemple seuls les bits 2 et 3 peuvent être facilement déduits d'après le tableau (ce qui n'est pas le cas des bits 4 et 5). Ceci est du au fait que tous les $b$ sont dans une seule des deux catégories énoncées en question 5 (en l'occurrence, $b$ multiple de $4$).
 
 \subsection*{Complexité}
 
@@ -237,7 +237,7 @@ $$ \frac{C_2}{C_1} = \frac{1}{2} \times 2^{8-4} \times \frac{C(8)}{C(4)} = 16$$.
 
 La méthode utilisant une active boxe va donc 16 fois plus vite que l'autre méthode.
 
-En pratique, nous avons utilisé des deux actives boxes, mais avec un algorithme qui ne devine que des blocs de 4 bits correspondant précisement aux bits sur lesquels les relations intervenants dans la table de la question 6 opèrent.
+En pratique, nous avons utilisé des deux actives boxes, mais avec un algorithme qui ne devine que des blocs de 4 bits correspondant précisément aux bits sur lesquels les relations intervenants dans la table de la question 6 opèrent.
 
 \section*{Question 9}
 
@@ -245,7 +245,7 @@ Une fois que l'on a trouvé la clé $K_2$, on peut se ramener à l'étude d'un s
 
 On a alors, dans ce schéma de chiffrement réduit, un jeu de couple $(m,x_1)$ où les $x_1$ correspondent au résultat du chiffrement de chaque $m$.
 
-Pour trouver les clés $K_0$ et $K_1$, on ne peut plus utiliser la relation précédente. Il faut se débrouiller autrement. L'idée ici est de deviner $K_0$ par bloc. On remarque qu'à partir d'un bloc de $K_0$, pour chaque couple $(m,x_1)$, on peut construire un bloc $K_1 = F(m \oplus K_0) \oplus x_1$, la seule clé qui puisse convenir. Ensuite, on compte pour chaque pari le nombre de couples tels que les relations que doivent vérifier les bits de $K_0$ et $K_1$ et ceux déjà découverts de $K_2$. Enfin, on ne garde que les sous-clés tel que le nombre de couples est maximal (égal précisement au nombre de couples).	
+Pour trouver les clés $K_0$ et $K_1$, on ne peut plus utiliser la relation précédente. Il faut se débrouiller autrement. L'idée ici est de deviner $K_0$ par bloc. On remarque qu'à partir d'un bloc de $K_0$, pour chaque couple $(m,x_1)$, on peut construire un bloc $K_1 = F(m \oplus K_0) \oplus x_1$, la seule clé qui puisse convenir. Ensuite, on compte pour chaque pari le nombre de couples tels que les relations que doivent vérifier les bits de $K_0$ et $K_1$ et ceux déjà découverts de $K_2$. Enfin, on ne garde que les sous-clés tel que le nombre de couples est maximal (égal précisément au nombre de couples).	
 
 Finalement, à partir des trois clés $K_2$, $K_1$ et $K_0$, il est facile de retrouver la clé $K$ à partir de la table des permutations utilisées pour construire les trois clés. De plus, on peut vérifier pendant cette étape que l'on a effectivement bien trouver les bonnes clés lors des étapes précédentes.
 
