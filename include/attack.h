@@ -9,8 +9,12 @@ class Attack : public linearApproxMatrix, public Chiffre {
 public:
     Attack(std::vector<std::bitset<BLOC_LENGTH>> plaintexts_, std::vector<std::bitset<BLOC_LENGTH>> ciphertexts_, std::vector<std::bitset<BLOC_LENGTH>>SBox_);
     ~Attack() {};
-    unsigned int make_guess(bool active_box, unsigned int position, bool verbose);
-    std::bitset<BLOC_LENGTH> find_K2(bool active_box, bool verbose);
+    unsigned int make_guess(bool active_box, unsigned int position);
+    void depasse_ciphertexts(std::bitset<BLOC_LENGTH> K);
+    std::bitset<BLOC_LENGTH> find_K2(bool active_box);
+    bool inline check_keys(std::bitset<BLOC_LENGTH> K0, std::bitset<BLOC_LENGTH> K1, std::bitset<BLOC_LENGTH> K2, int position);
+    std::pair<std::bitset<BLOC_LENGTH>, std::bitset<BLOC_LENGTH>> find_sub_K0_K1(std::bitset<BLOC_LENGTH> K2, int position);
+    void find_all_keys(bool active_box);
 
 private:
     std::vector<std::bitset<BLOC_LENGTH>> plaintexts;

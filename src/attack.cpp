@@ -27,11 +27,7 @@ Attack::Attack(vector<bitset<BLOC_LENGTH>> plaintexts_, vector<bitset<BLOC_LENGT
         invSBox[SBox_[i].to_ulong()]=std::bitset<BLOC_LENGTH>(i);
 }
 
-// Attack in the general case (no notion of active boxes)
-// Just try to guess the 4 bits of the key (2,3,4,5 if position = 0, with the example of the report)
-// greatest = greatest couple or not
-
-unsigned int Attack::make_guess(bool active_box, unsigned int position, bool verbose)
+unsigned int Attack::make_guess(bool active_box, unsigned int position)
 {
     unsigned int nb_keys = static_cast<unsigned int>(pow(2.0,static_cast<double>(PIECE_LENGTH)));
     vector<int> biais(nb_keys,0);
@@ -42,23 +38,18 @@ unsigned int Attack::make_guess(bool active_box, unsigned int position, bool ver
         couples = two_active_pairs;
     for (unsigned int k = 0; k < couples.size(); ++k)
     {
-
         bitset<BLOC_LENGTH> A(couples[k].first);
         A = moveBitsets(A,PIECE_LENGTH*position);
-        if(verbose)
-            cout << "A = " << A << endl; // OK
         bitset<BLOC_LENGTH> PB(couples[k].second);
         PB = moveBitsets(PB,PIECE_LENGTH*position+2);
-        if(verbose)
-            cout << "P(B) = " << PB << endl; // OK
         for (unsigned int key = 0; key < nb_keys; ++key)
         {
             int frequency = 0;
-            bitset<BLOC_LENGTH> K2(key);
-            K2 = moveBitsets(K2,PIECE_LENGTH*position+2); // OK
+            bitset<BLOC_LENGTH> K(key);
+            K = moveBitsets(K,PIECE_LENGTH*position+2);
             for (unsigned int i = 0; i < ciphertexts.size(); ++i)
             {
-                bitset<BLOC_LENGTH> x1 = depasse(K2,ciphertexts[i]);
+                bitset<BLOC_LENGTH> x1 = depasse(K,ciphertexts[i]);
                 if (produitScalaire(A,plaintexts[i]) == produitScalaire(PB,x1))
                     frequency++;
             }
@@ -75,19 +66,117 @@ unsigned int Attack::make_guess(bool active_box, unsigned int position, bool ver
 	return good_guess;
 }
 
-bitset<BLOC_LENGTH> Attack::find_K2(bool active_box, bool verbose)
+bitset<BLOC_LENGTH> Attack::find_K2(bool active_box)
 {
     bitset<BLOC_LENGTH> result(0);
     for (unsigned int position = 0; position < BLOC_LENGTH/PIECE_LENGTH; ++position)
     {
-        unsigned int guess = make_guess(active_box, position, verbose);
+        unsigned int guess = make_guess(active_box, position);
         bitset<BLOC_LENGTH> subkey(guess);
-        if(verbose)
-            cout << guess << endl;
         subkey = moveBitsets(subkey,PIECE_LENGTH*position + 2);
         result |= subkey;
     }
     return result;
+}
+
+// Build all the x1
+
+void Attack::depasse_ciphertexts(bitset<BLOC_LENGTH> K)
+{
+    for (unsigned int i = 0; i < ciphertexts.size(); ++i)
+        ciphertexts[i] = depasse(K,ciphertexts[i]);
+}
+
+// Check the key relation of Question 9 --> helps to find the correct keys K0 and K1
+
+bool Attack::check_keys(bitset<BLOC_LENGTH> K0, bitset<BLOC_LENGTH> K1, bitset<BLOC_LENGTH> K2, int position)
+{
+    switch (position)
+    {
+        case 0:
+            return ( (K0[28] == K2[14]) && (K0[29] == K2[14]) && (K0[30] == K2[15]) && (K0[31] == K2[19])
+                   && (K1[26] == K2[15]) && (K1[28] == K2[14]) && (K1[29] == K2[16]) );
+        case 1:
+            return ( (K0[24] == K2[5]) && (K0[25] == K2[13]) && (K0[27] == K2[5])
+                   && (K1[23] == K2[5]) && (K1[25] == K2[16]) );
+
+        case 2:
+            return ( (K0[22] == K2[22])
+                   && (K1[18] == K2[14]) );
+
+        case 3:
+            return ( (K0[16] == K2[13]) && (K0[17] == K2[8]) && (K0[18] == K2[31])
+                   && (K1[14] == K2[24]) && (K1[15] == K2[13]) && (K1[16] == K2[22]) && (K1[17] == K2[8])  );
+
+        case 4:
+            return ( (K0[13] == K2[19])
+                   && (K1[10] == K2[8]) );
+
+        case 5:
+            return ( (K0[8] == K2[9]) && (K0[9] == K2[23]) && (K0[11] == K2[18])
+                   && (K1[6] == K2[13]) && (K1[9] == K2[2])  );
+
+        case 6:
+            return ( (K0[4] == K2[13]) && (K0[5] == K2[1]) && (K0[6] == K2[5]) && (K0[7] == K2[12])
+                   && (K1[2] == K2[8]) && (K1[39] == K2[1]) );
+
+        case 7:
+            return ( (K0[0] == K2[9]) && (K0[1] == K2[30]) && (K0[2] == K2[16]) && (K0[3] == K2[31])
+                   && (K1[30] == K2[9]) && (K1[1] == K2[16]) );
+
+        default: // Ne doit pas arriver
+            cerr << "position incorrecte :" << position;
+            return 0;
+    }
+}
+
+// find each subkey of K0 and K1 (cf Question 9)
+
+pair<bitset<BLOC_LENGTH>, bitset<BLOC_LENGTH>>  Attack::find_sub_K0_K1(bitset<BLOC_LENGTH> K2, int position)
+{
+    unsigned int nb_keys = static_cast<unsigned int>(pow(2.0,static_cast<double>(PIECE_LENGTH)));
+    vector<unsigned int> ok(nb_keys,0);
+    for (unsigned int key = 0; key < nb_keys; ++key)
+    {
+        bitset<BLOC_LENGTH> K0(key); // guess K0
+        K0 = moveBitsets(K0, static_cast<unsigned int>(PIECE_LENGTH*position));
+        for (unsigned int i = 0; i < ciphertexts.size(); ++i)
+        {
+            bitset<BLOC_LENGTH> K1 = passe(ciphertexts[i],plaintexts[i]^K0);
+            if (check_keys(K0,K1,K2,position))
+                ok[key]++;
+        }
+    }
+    unsigned int subkey0 = 0;
+    for (unsigned int key = 0; key < nb_keys; ++key)
+        if (ok[key] > ok[subkey0])
+            subkey0 = key;
+
+    // Build the two subkeys and return them
+    bitset<BLOC_LENGTH> good_K0(subkey0);
+    good_K0 = moveBitsets(good_K0, static_cast<unsigned int>(PIECE_LENGTH*position));
+    bitset<BLOC_LENGTH> good_K1 = passe(ciphertexts[0],plaintexts[0]^good_K0);
+    bitset<BLOC_LENGTH> masque(15);
+    masque = moveBitsets(masque, PIECE_LENGTH*position +2);
+    good_K1 &= masque;
+    return pair<bitset<BLOC_LENGTH>, bitset<BLOC_LENGTH>>(good_K0,good_K1) ;
+}
+
+void Attack::find_all_keys(bool active_box)
+{
+    bitset<BLOC_LENGTH> K2 = find_K2(active_box);
+    depasse_ciphertexts(K2);
+    bitset<BLOC_LENGTH> K0(0);
+    bitset<BLOC_LENGTH> K1(0);
+    for (unsigned int position = 0; position < BLOC_LENGTH/PIECE_LENGTH; ++position)
+    {
+        pair<bitset<BLOC_LENGTH>, bitset<BLOC_LENGTH>> paire = find_sub_K0_K1(K2,position);
+        K0 |= paire.first;
+        K1 |= paire.second;
+    }
+    cout << "K0 = " << K0 << endl;
+    cout << "K1 = " << K1 << endl;
+    cout << "K2 = " << K2 << endl;
 }
 
 std::bitset<BLOC_LENGTH> moveBitsets(std::bitset<BLOC_LENGTH> Key, unsigned int position) // Works correctly

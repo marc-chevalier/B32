@@ -107,8 +107,7 @@ int main(int argc, char* argv[])
             return EXIT_FAILURE;
         }
         Attack attack(bitsetFromArray(Plaintext), bitsetFromArray(Ciphertext),Parseur::parseSBox(arguments.getArgument(0)));
-        bitset<BLOC_LENGTH> guess = attack.find_K2(1, arguments.getOption("v"));
-        cout << guess << endl;
+        attack.find_all_keys(1);
         return EXIT_SUCCESS;
     }
     cout<<"Faites `./B32 --help' ou `./B32 -h' pour plus d'informations."<<endl;
