@@ -221,19 +221,11 @@ Plusieurs méthodes ont été testées : couple par couple, moyenne des couples 
 
 Une fois que l'on a trouvé la clé $K_2$, on peut se ramener à l'étude d'un schéma de chiffrement utilisant seulement un tour de fonction $F$. Pour cela, il suffit, à partir de la clé trouvée et du fonctionnement des SBoxes, de retrouver $x_1 = F(x_0,K_1) = F^{-1}(c,K_2)$.
 
-On a alors, dans ce schéma de chiffrement réduit, un jeu de couple $(m,x_1)$ où les $x_1$ correspondent au résultat du chiffrement de chaque $m$. On remarque alors que :
+On a alors, dans ce schéma de chiffrement réduit, un jeu de couple $(m,x_1)$ où les $x_1$ correspondent au résultat du chiffrement de chaque $m$.
 
-$$ \prob{A.m = B.S(x_0)} = \prob{A.m^{(0)} = b.S(x_0)^{(0)}} = \prob{A.m^{(0)} = b.S(x_0^{(0)})} $$
+Pour trouver les clés $K_0$ et $K_1$, on ne peut plus utiliser la relation précédente. Il faut se débrouiller autrement. L'idée ici est de deviner $K_0$ par bloc. On remarque qu'à partir d'un bloc de $K_0$, pour chaque couple $(m,x_1)$, on peut construire un bloc $K_1 = F(m \oplus K_0) \oplus x_1$, la seule clé qui puisse convenir. Ensuite, on compte pour chaque pari le nombre de couples tels que les relations que doivent vérifier les bits de $K_0$ et $K_1$ et ceux déjà découverts de $K_2$. Enfin, on ne garde que les sous-clés tel que le nombre de couples est maximal (égal précisement au nombre de couples).	
 
-Or on avait établi dans la question 4, en tant que résult intermédiaire que :
-
-$$ \prob{A.m^{(0)} = b.S(x_0^{(0)})} = \frac{1}{2} \pm \frac{6}{16}$$
-
-Ainsi, on peut utiliser exactement la même méthode que précédemment afin de deviner la clé $K_1$, qui est la dernière clé utilisée dans le schéma de chiffrement réduit.
-
-Une fois que l'on a trouvé $K_1$, il reste à trouver $K_0$. Cette opération consiste juste à vérifier que pour tout couple $(m,x_1)$ utilisé précédemment, on a avec la clé trouvée que $m \oplus F^{-1}(x_1,K_1) = m \oplus x_0 = K_0$ qui est un message constant, qui correspond à la clé recherchée.
-
-A partir des trois clés $K_2$, $K_1$ et $K_0$, il est facile de retrouver la clé $K$ à partir de la table des permutations utilisées pour construire les trois clés. De plus, on peut vérifier pendant cette étape que l'on a effectivement bien trouver les bonnes clés lors des étapes précédentes.
+Finalement, à partir des trois clés $K_2$, $K_1$ et $K_0$, il est facile de retrouver la clé $K$ à partir de la table des permutations utilisées pour construire les trois clés. De plus, on peut vérifier pendant cette étape que l'on a effectivement bien trouver les bonnes clés lors des étapes précédentes.
 
 %\section*{Question 10}
 
