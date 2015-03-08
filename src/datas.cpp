@@ -215,7 +215,7 @@ vector<bitset<BLOC_LENGTH>> bitsetFromArray(int texts[][BLOC_LENGTH])
     for (unsigned int i = 0; i < 100; ++i) // replace by size...
     {
         for (unsigned int j = 0; j < BLOC_LENGTH; ++j)
-            bits[j] = texts[i][j];
+            bits[j] = texts[i][BLOC_LENGTH-1-j];
         result.push_back(bits);
     }
     return result;
