@@ -28,7 +28,6 @@ int main(int argc, char* argv[])
         cout<<"    ./B32 -a sbox"<<endl;
         cout<<"    ./B32 -e keys sbox"<<endl;
         cout<<"    ./B32 -b sbox"<<endl<<endl;
-
         cout<<"-c               Chiffrer"<<endl;
         cout<<"-d               Déchiffrer"<<endl;
         cout<<"-a               Matrice d'approximation linéaire"<<endl;
@@ -39,7 +38,7 @@ int main(int argc, char* argv[])
         cout<<"--help           Vous y êtes"<<endl<<endl;
         return EXIT_SUCCESS;
     }
-    if(arguments.getOption("c"))
+    if(arguments.getOption("c")) /// Chiffrer
     {
         if(arguments.nbArguments()!=3)
         {
@@ -54,7 +53,7 @@ int main(int argc, char* argv[])
             cout<<bloc;
         return EXIT_SUCCESS;
     }
-    if(arguments.getOption("d"))
+    if(arguments.getOption("d")) /// Déchiffrer
     {
         if(arguments.nbArguments()!=3)
         {
@@ -69,7 +68,7 @@ int main(int argc, char* argv[])
             cout<<bloc;
         return EXIT_SUCCESS;
     }
-    if(arguments.getOption("a"))
+    if(arguments.getOption("a")) /// Matrice d'approximation
     {
         if(arguments.nbArguments()!=1)
         {
@@ -79,12 +78,12 @@ int main(int argc, char* argv[])
             return EXIT_FAILURE;
         }
         vector<bitset<BLOC_LENGTH>> SBox(Parseur::parseSBox(arguments.getArgument(0)));
-        linearApproxMatrix matrix (SBox);
+        LinearApproxMatrix matrix (SBox);
         cout<<matrix<<endl;
-		matrix.print_farthest_couples();
+		matrix.printFarthestCouples();
         return EXIT_SUCCESS;
     }
-    if(arguments.getOption("e"))
+    if(arguments.getOption("e")) /// Question 5
     {
         if(arguments.nbArguments()!=2)
         {
@@ -97,7 +96,7 @@ int main(int argc, char* argv[])
         test.experiment(arguments.getOption("v"));
         return EXIT_SUCCESS;
     }
-    if(arguments.getOption("b")) // like BREAK
+    if(arguments.getOption("b")) /// Attaque (break)
     {
         if(arguments.nbArguments()!=1)
         {
@@ -107,7 +106,7 @@ int main(int argc, char* argv[])
             return EXIT_FAILURE;
         }
         Attack attack(bitsetFromArray(Plaintext), bitsetFromArray(Ciphertext),Parseur::parseSBox(arguments.getArgument(0)));
-        attack.find_all_keys(1);
+        attack.findAllKeys(1);
         return EXIT_SUCCESS;
     }
     cout<<"Faites `./B32 --help' ou `./B32 -h' pour plus d'informations."<<endl;

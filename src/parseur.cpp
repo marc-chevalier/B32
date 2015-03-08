@@ -4,6 +4,11 @@
 
 using namespace std;
 
+/**
+* Parse un fichier contenant les clefs.
+* Ils contiennent d'abord le nombre de clefs, puis une clef par ligne, exprimée ppar une suite de '0' et de '1'.
+**/
+
 vector<bitset<BLOC_LENGTH>> Parseur::parseClefs(string clefs_filename)
 {
     vector<bitset<BLOC_LENGTH>> clefs(0);
@@ -20,6 +25,10 @@ vector<bitset<BLOC_LENGTH>> Parseur::parseClefs(string clefs_filename)
     clefs_file.close();
     return clefs;
 }
+
+/**
+* Parse un texte de taille quelconque en un vector de blocs. Le fichier est constitué d'une chaine de '0' et de '1'
+**/
 
 vector<bitset<BLOC_LENGTH>> Parseur::parseText(string text_filename)
 {
@@ -44,6 +53,10 @@ vector<bitset<BLOC_LENGTH>> Parseur::parseText(string text_filename)
 
     return text;
 }
+
+/**
+* Parse un fichier décrivant une SBox. Un tel fichier contient la permutation écrite sous forme d'une suite de nombres décimaux séparés par des espaces.
+**/
 
 vector<bitset<BLOC_LENGTH>> Parseur::parseSBox(string sbox_filename)
 {

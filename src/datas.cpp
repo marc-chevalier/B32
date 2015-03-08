@@ -208,13 +208,17 @@ int Ciphertext  [100][BLOC_LENGTH] = {
 { 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1 },
 };
 
+/**
+* Converti le tableau en bitset si pratique
+**/
+
 vector<bitset<BLOC_LENGTH>> bitsetFromArray(int texts[][BLOC_LENGTH])
 {
     vector<bitset<BLOC_LENGTH>> result;
     bitset<BLOC_LENGTH> bits(0);
-    for (unsigned int i = 0; i < 100; ++i) // replace by size...
+    for(unsigned int i = 0; i < 100; ++i)
     {
-        for (unsigned int j = 0; j < BLOC_LENGTH; ++j)
+        for(unsigned int j = 0; j < BLOC_LENGTH; ++j)
             bits[j] = texts[i][BLOC_LENGTH-1-j];
         result.push_back(bits);
     }

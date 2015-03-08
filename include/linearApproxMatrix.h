@@ -4,16 +4,20 @@
 #include<iostream>
 #include "std.h"
 
-class linearApproxMatrix
+/**
+* Construit la matrice L d'approximation linéaire de la SBox et propriétés simples
+**/
+
+class LinearApproxMatrix
 {
 public:
-    linearApproxMatrix(std::vector<std::bitset<BLOC_LENGTH>>SBox);
-    virtual ~linearApproxMatrix(){};
+    LinearApproxMatrix(std::vector<std::bitset<BLOC_LENGTH>>SBox);
+    virtual ~LinearApproxMatrix(){};
+    void buildFarthestCouples();
+    std::pair<unsigned int, unsigned int> getMin(unsigned int index) __attribute__((pure));
+    std::pair<unsigned int, unsigned int> getMax(unsigned int index) __attribute__((pure));
     void print(std::ostream& flux);
-    void build_farthest_couples();
-    void print_farthest_couples();
-    std::pair<unsigned int, unsigned int> get_min(unsigned int index) __attribute__((pure));
-    std::pair<unsigned int, unsigned int> get_max(unsigned int index) __attribute__((pure));
+    void printFarthestCouples();
 protected:
     std::vector<std::vector<int>> matrix;
     std::vector<std::pair<unsigned int, unsigned int>> minima;
@@ -21,5 +25,5 @@ protected:
 };
 
 bool produitScalaire(std::bitset<BLOC_LENGTH> a, std::bitset<BLOC_LENGTH> b)  __attribute__((pure));
-std::ostream& operator<<(std::ostream& flux, linearApproxMatrix approx);
+std::ostream& operator<<(std::ostream& flux, LinearApproxMatrix approx);
 

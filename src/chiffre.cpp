@@ -3,6 +3,9 @@
 #include<iostream>
 
 using namespace std;
+/**
+* Déchiffre un texte chiffré
+**/
 
 vector<bitset<BLOC_LENGTH>> Chiffre::dechiffrer(vector<bitset<BLOC_LENGTH>> ciphertext)
 {
@@ -14,6 +17,10 @@ vector<bitset<BLOC_LENGTH>> Chiffre::dechiffrer(vector<bitset<BLOC_LENGTH>> ciph
     return plaintext;
 }
 
+/**
+* Déchiffre un bloc de 32 bits
+**/
+
 bitset<BLOC_LENGTH> Chiffre::dechiffrerBloc(bitset<BLOC_LENGTH> ciphertext)
 {
     for(size_t i=clefs.size()-1;i>0;--i)
@@ -22,6 +29,10 @@ bitset<BLOC_LENGTH> Chiffre::dechiffrerBloc(bitset<BLOC_LENGTH> ciphertext)
     ciphertext = ciphertext^clefs[0];
     return ciphertext;
 }
+
+/**
+* Fait une passe de déchiffrement
+**/
 
 bitset<BLOC_LENGTH> Chiffre::depasse(bitset<BLOC_LENGTH> clef, bitset<BLOC_LENGTH> input)
 {
@@ -43,6 +54,10 @@ bitset<BLOC_LENGTH> Chiffre::depasse(bitset<BLOC_LENGTH> clef, bitset<BLOC_LENGT
     return output;
 }
 
+/**
+* Chiffre un texte
+**/
+
 vector<bitset<BLOC_LENGTH>> Chiffre::chiffrer(vector<bitset<BLOC_LENGTH>> plaintext)
 {
     vector<bitset<BLOC_LENGTH>> ciphertext(plaintext.size());
@@ -53,6 +68,10 @@ vector<bitset<BLOC_LENGTH>> Chiffre::chiffrer(vector<bitset<BLOC_LENGTH>> plaint
     return ciphertext;
 }
 
+/**
+* Chiffre un texte de 32 bits
+**/
+
 bitset<BLOC_LENGTH> Chiffre::chiffrerBloc(bitset<BLOC_LENGTH> plaintext)
 {
     plaintext = plaintext^clefs[0];
@@ -61,6 +80,10 @@ bitset<BLOC_LENGTH> Chiffre::chiffrerBloc(bitset<BLOC_LENGTH> plaintext)
 
     return plaintext;
 }
+
+/**
+* Fais une passe de chiffrement
+**/
 
 bitset<BLOC_LENGTH> Chiffre::passe(bitset<BLOC_LENGTH> clef, bitset<BLOC_LENGTH> input)
 {
@@ -80,6 +103,10 @@ bitset<BLOC_LENGTH> Chiffre::passe(bitset<BLOC_LENGTH> clef, bitset<BLOC_LENGTH>
     return ((output<<BLOC_LENGTH-2)|(output>>2))^clef;
 }
 
+/**
+* Fonction auxiliaire qui crée un masque de '1' entre les positions début et fin
+**/
+
 bitset<BLOC_LENGTH> Chiffre::creerMasque(size_t debut, size_t fin)
 {
     bitset<BLOC_LENGTH> sortie=0;
@@ -89,6 +116,10 @@ bitset<BLOC_LENGTH> Chiffre::creerMasque(size_t debut, size_t fin)
     return sortie;
 }
 
+/**
+* Constructeur pour se servir du chiffre
+**/
+
 Chiffre::Chiffre(vector<bitset<BLOC_LENGTH>> clefs_, vector<bitset<BLOC_LENGTH>>SBox_) :
 clefs(clefs_), SBox(SBox_), invSBox(vector<bitset<BLOC_LENGTH>>(SBox_.size()))
 {
@@ -96,7 +127,11 @@ clefs(clefs_), SBox(SBox_), invSBox(vector<bitset<BLOC_LENGTH>>(SBox_.size()))
         invSBox[SBox[i].to_ulong()]=bitset<BLOC_LENGTH>(i);
 }
 
-Chiffre::Chiffre(vector<bitset<BLOC_LENGTH>> SBox_) : // for attack, unknown keys
+/**
+* Constructeur pour l'attaque. Les clefs sont inconnues
+**/
+
+Chiffre::Chiffre(vector<bitset<BLOC_LENGTH>> SBox_) :
 clefs(vector<bitset<BLOC_LENGTH>>()), SBox(SBox_), invSBox(vector<bitset<BLOC_LENGTH>>(SBox_.size()))
 {
     for(unsigned int i=0;i<SBox.size();++i)

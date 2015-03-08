@@ -4,11 +4,15 @@
 #include<vector>
 #include<bitset>
 
+/**
+* Implémentation du chiffre
+**/
+
 class Chiffre
 {
 public:
     Chiffre(std::vector<std::bitset<BLOC_LENGTH>> clefs_, std::vector<std::bitset<BLOC_LENGTH>>SBox_);
-    Chiffre(std::vector<std::bitset<BLOC_LENGTH>> SBox_); // for attack, unknown keys
+    Chiffre(std::vector<std::bitset<BLOC_LENGTH>> SBox_);
     virtual ~Chiffre(){};
     std::vector<std::bitset<BLOC_LENGTH>> chiffrer(std::vector<std::bitset<BLOC_LENGTH>> plaintext);
     std::vector<std::bitset<BLOC_LENGTH>> dechiffrer(std::vector<std::bitset<BLOC_LENGTH>> plaintext);

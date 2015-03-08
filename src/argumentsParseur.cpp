@@ -4,6 +4,10 @@
 
 using namespace std;
 
+/**
+* Constitue la liste des options possibles
+**/
+
 ArgumentsParser::ArgumentsParser(vector<string> nomsOptions) :
 arguments(vector<string>()), options(map<string,bool>())
 {
@@ -14,10 +18,18 @@ arguments(vector<string>()), options(map<string,bool>())
     options["-help"] = false;
 }
 
+/**
+* Test si l'option -h ou --help est passé
+**/
+
 bool ArgumentsParser::demandeAide()
 {
     return options["h"] || options["-help"];
 }
+
+/**
+* Parse les arguments et les options
+**/
 
 void ArgumentsParser::parse(int argc, char* argv[])
 {
@@ -40,15 +52,27 @@ void ArgumentsParser::parse(int argc, char* argv[])
     }
 }
 
+/**
+* Renvoie l'argument en position index
+**/
+
 string ArgumentsParser::getArgument(size_t index)
 {
     return arguments[index];
 }
 
+/**
+* Teste si l'option nom a été passée.
+**/
+
 bool ArgumentsParser::getOption(string nom)
 {
     return options[nom];
 }
+
+/**
+* Liste des options possibles
+**/
 
 vector<string> ArgumentsParser::getNomsOptions()
 {
