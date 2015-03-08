@@ -37,14 +37,14 @@ Notre programme nous donne la matrice $L$ suivante :
 
 \section*{Question 3}
 
-Les probabilités les plus éloignées de 0.5 (hormis 1) sont 0.125 et 0.875.
+Les probabilités les plus éloignées de 0.5 (hormis 1, valeur atteinte pour le couple $(0,0)$) sont 0.125 et 0.875.
 Elles sont atteintes respectivement pour les couples :
 \begin{enumerate}
 \item $p_{3,15} = p_{7,7} = p_{9,4} = p_{13,12} = 0.125$
 \item $p_{1,5} = p_{4,8} = p_{10,11} = 0.875$
 \end{enumerate}
 
-En effet, il n'est pas très intéressant de travailler avec le couple $(0,0)$, car dans ce cas $a.x = b.S(x) \Leftrightarrow 0 = 0$, ce qui n'est pas très expressif comme relation...
+En effet, il n'est pas très intéressant de travailler avec le couple $(0,0)$ : dans ce cas $a.x = b.S(x) \Leftrightarrow 0 = 0$, qui est une relation dont on ne peut rien déduire...
 
 \section*{Question 4}
 
@@ -52,7 +52,7 @@ En effet, il n'est pas très intéressant de travailler avec le couple $(0,0)$, 
 
 Soit $m$ un message aléatoire distribué (en tant que variable aléatoire) uniformément sur %TODO
 
-Avec les notations introduites dans l'énoncé, on a \[A.m = a.m^{(0)}\] et \[P(B).x_1 = P(B).F(x_0,K_1) = P(B).(P(S(x_0)\oplus K_1)\]
+Avec les notations introduites dans l'énoncé, on a \[A.m = a.m^{(0)}\] et \[P(B).x_1 = P(B).F(x_0,K_1) = P(B).\left( P \left( S(x_0) \right) \oplus K_1 \right)\]
 
 Soit $K_3$ telle que $K_1 = P(K_3)$. On a :
 
@@ -112,7 +112,7 @@ Selon la valeur de $b$, les bits non nuls de $P(B)$ peuvent correspondre à une 
 En effet, avec les $A$ et $B$ donnés, les seuls bits de $K_2$ qui vont intervenir dans le calcul de $P(B).x1$ sont les bits $i$ tels que $P(b)_i \neq 0$. Ces bits font forcément partis des bits de $b$, qui sont situés entre les rangs 2 et 6 (voir figure 
 \ref{illustration_bits_key}).
 
-Si les bits de $b$ valant $1$ occupent deux groupes de 4 bits différents (qui correspondent aux résultats de 2 boxes différentes), on est dans le "deux actives boxes". C'est le cas de la figure \ref{illustration_bits_key}. Dans ce cas, on peut se limiter à chercher les 8 premiers bits de la clé.
+Si les bits de $b$ valant $1$ occupent deux groupes de 4 bits différents (qui correspondent aux résultats de 2 boxes différentes), on est dans le cas "deux actives boxes". C'est le cas de la figure \ref{illustration_bits_key}. Dans ce cas, on peut se limiter à chercher les 8 premiers bits de la clé.
 
 
 \begin{figure}[!ht]
@@ -149,7 +149,7 @@ S'ils occupent un seul groupe, alors on est dans le cas "une active boxe". On pe
 
 Il est facile de voir que l'on est dans le cas "une active boxe" si $b < 3$ (seuls les bits à droite sont non nuls), ou si $4$ divise $b$ (seuls les bits à gauche sont non nuls).
 
-L'algorithme qui renvoit les 4 bits les plus probables pour la sous-clé qui nous intéresse est donné ci-dessous. Nous détaillerons le choix de l'algorithme à la question 8.
+L'algorithme qui renvoit les 4 bits les plus probables pour la sous-clé qui nous intéresse est donné ci-dessous. Dans cet algorithme, nous ne devinons que 4 bits pour les deux méthodes. Nous expliquerons ce choix à la question 8.
 
 \begin{algorithm}
 \caption{L'attaque des 4 bits de la clé pouvant être devinés}
@@ -173,7 +173,7 @@ L'algorithme qui renvoit les 4 bits les plus probables pour la sous-clé qui nou
 
 \section*{Question 6}
 
-Dans toute cette table, les bits de $m$ seron notés m = $m_0 m_1\cdots m_n$, et les bits de $x_1$ (que l'on renomme $x$) seront notés $x_1 = x_0 x_1 \cdots x_n$. On fera notamment attention au fait que, dans ce tableau, $x_1$ désignera le deuxième bit de $x$ fraichement renommé.
+Dans toute cette table, les bits de $m$ seron notés m = $m_0 m_1\cdots m_n$, et les bits de $x_1$ (que l'on renomme $x$) seront notés $x_1 = x_0 x_1 \cdots x_n$. On fera notamment attention au fait que, dans ce tableau, $x_1$ désignera le deuxième bit de $x$ fraîchement renommé.
 
 Par mesure de simplicité, on ne représente qu'une partie des bits nuls de P(B).
 
@@ -211,29 +211,43 @@ Par mesure de simplicité, on ne représente qu'une partie des bits nuls de P(B)
 
 \subsection*{Efficacité des deux méthodes}
 
-Plusieurs méthodes ont été testées : couple par couple, moyenne des couples (une ou deux actives boxes). Tout d'abord, les différents couples ne donnent pas en soi les mêmes clés $K_2$, et sachant que l'on a peu de couples $(a,b)$, on ne pouvait pas choisir lequel des paquet de 4 bits prendre à chaque passe. Nous avons donc implémenté une méthode qui choisit la bonne clé en regardant la somme des biais (écart à la valeur moyenne). Cette méthode fonctionne très bien avec deux actives boxes, par contre on a quelques erreurs avec une seule active box. En effet, avec les couples données, par exemple, seuls les bits 2 et 3 peuvent être facilement déduits d'après le tableau. Ceci est du au fait que tous les $b$ sont dans une seule des catégories énoncées en question 5 (en l'occurence, $b$ multiple de $4$).
+Plusieurs méthodes ont été testées : couple par couple, moyenne des couples (une ou deux actives boxes). Tout d'abord, les différents couples ne donnent pas en soi les mêmes clés $K_2$, et sachant que l'on a peu de couples $(a,b)$, on ne pouvait pas choisir lequel des paquet de 4 bits prendre à chaque passe. Nous avons donc implémenté une méthode qui choisit la bonne clé en regardant la somme des biais (écart à la valeur moyenne). Cette méthode fonctionne très bien avec deux actives boxes, par contre on observe quelques erreurs avec une seule active box pour certains choix de couples, alors que pour d'autres le résultat est identique. En effet, avec les couples données, par exemple seuls les bits 2 et 3 peuvent être facilement déduits d'après le tableau (ce qui n'est pas le cas des bits 4 et 5). Ceci est du au fait que tous les $b$ sont dans une seule des deux catégories énoncées en question 5 (en l'occurence, $b$ multiple de $4$).
 
 \subsection*{Complexité}
 
 %TODO : Ici, il faudra comparer les deux méthodes par rapport à la vitesse d'exécution et au nombre d'opérations effectuées
 
+Pour comparer la complexité des deux méthodes, il suffit de comparer la complexité de la recherche de la première clé $K_2$. En effet, après avoir trouvé $K_2$, on n'utilise plus du tout les actives boxes.
+
+Dans l'algorithme que nous avons implémenté, le fait d'utiliser une ou deux actives boxes donne exactement la même complexité. En effet, à chaque fois, on cherche à deviner le même nombre de bits, et les calculs à effectuer sont les mêmes.
+
+On va chercher à comparer ici un algorithme différent : avec deux actives boxes, on pourrait chercher à deviner la clé par bloc de 8 (les 8 bits appartenant aux deux boxes), alors qu'avec une active box, on pourrait chercher à deviner la clé par bloc de 4, mais face aux boxes (et non pas en décalé comme cela a été implémenté).
+
+Soit $C(n)$ le coût d'un produit scalaire entre deux nombres de $n$ bits. On peut supposer que $C(n)$ est linéaire.
+
+Le coût de chaque méthode est donné par $ \# (subkeys) \times 2^{ | keys |} \times 2 C( |keys|)$. En effet, il faut deviner $\# (subkeys)$ sous-clés, avec une méthode qui nécessite de tester $2^{ | keys |}$ sous-clés possibles, ces tests utilisant essentiellement deux calculs de produits scalaires.
+
+Pour la méthode avec une active boxe, ce coût vaut $C_1 = 8 \times 2^4 \times 2 C(8)$. 
+
+Pour la méthode avec deux actives boxes, ce coût vaut $C_2 = 4 \times 2^8 \times 2 C(4)$.
+
+La gain entre ces deux méthodes vaut alors :
+
+$$ \frac{C_2}{C_1} = \frac{1}{2} \times 2^{8-4} \times \frac{C(8)}{C(4)} = 16$$.
+
+La méthode utilisant une active boxe va donc 16 fois plus vite que l'autre méthode.
+
+En pratique, nous avons utilisé des deux actives boxes, mais avec un algorithme qui ne devine que des blocs de 4 bits correspondant précisement aux bits sur lesquels les relations intervenants dans la table de la question 6 opèrent.
+
 \section*{Question 9}
 
 Une fois que l'on a trouvé la clé $K_2$, on peut se ramener à l'étude d'un schéma de chiffrement utilisant seulement un tour de fonction $F$. Pour cela, il suffit, à partir de la clé trouvée et du fonctionnement des SBoxes, de retrouver $x_1 = F(x_0,K_1) = F^{-1}(c,K_2)$.
 
-On a alors, dans ce schéma de chiffrement réduit, un jeu de couple $(m,x_1)$ où les $x_1$ correspondent au résultat du chiffrement de chaque $m$. On remarque alors que :
+On a alors, dans ce schéma de chiffrement réduit, un jeu de couple $(m,x_1)$ où les $x_1$ correspondent au résultat du chiffrement de chaque $m$.
 
-$$ \prob{A.m = B.S(x_0)} = \prob{A.m^{(0)} = b.S(x_0)^{(0)}} = \prob{A.m^{(0)} = b.S(x_0^{(0)})} $$
+Pour trouver les clés $K_0$ et $K_1$, on ne peut plus utiliser la relation précédente. Il faut se débrouiller autrement. L'idée ici est de deviner $K_0$ par bloc. On remarque qu'à partir d'un bloc de $K_0$, pour chaque couple $(m,x_1)$, on peut construire un bloc $K_1 = F(m \oplus K_0) \oplus x_1$, la seule clé qui puisse convenir. Ensuite, on compte pour chaque pari le nombre de couples tels que les relations que doivent vérifier les bits de $K_0$ et $K_1$ et ceux déjà découverts de $K_2$. Enfin, on ne garde que les sous-clés tel que le nombre de couples est maximal (égal précisement au nombre de couples).	
 
-Or on avait établi dans la question 4, en tant que résult intermédiaire que :
-
-$$ \prob{A.m^{(0)} = b.S(x_0^{(0)})} = \frac{1}{2} \pm \frac{6}{16}$$
-
-Ainsi, on peut utiliser exactement la même méthode que précédemment afin de deviner la clé $K_1$, qui est la dernière clé utilisée dans le schéma de chiffrement réduit.
-
-Une fois que l'on a trouvé $K_1$, il reste à trouver $K_0$. Cette opération consiste juste à vérifier que pour tout couple $(m,x_1)$ utilisé précédemment, on a avec la clé trouvée que $m \oplus F^{-1}(x_1,K_1) = m \oplus x_0 = K_0$ qui est un message constant, qui correspond à la clé recherchée.
-
-A partir des trois clés $K_2$, $K_1$ et $K_0$, il est facile de retrouver la clé $K$ à partir de la table des permutations utilisées pour construire les trois clés. De plus, on peut vérifier pendant cette étape que l'on a effectivement bien trouver les bonnes clés lors des étapes précédentes.
+Finalement, à partir des trois clés $K_2$, $K_1$ et $K_0$, il est facile de retrouver la clé $K$ à partir de la table des permutations utilisées pour construire les trois clés. De plus, on peut vérifier pendant cette étape que l'on a effectivement bien trouver les bonnes clés lors des étapes précédentes.
 
 %\section*{Question 10}
 

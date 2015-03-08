@@ -88,7 +88,7 @@ bitset<BLOC_LENGTH> Attack::findK2(bool active_box)
 }
 
 /**
-* Construit tous les x1
+* Construit tous les x1, une fois K2 trouvée
 **/
 
 void Attack::depasseCiphertexts(bitset<BLOC_LENGTH> K)
@@ -150,7 +150,7 @@ bool Attack::checkKeys(bitset<BLOC_LENGTH> K0, bitset<BLOC_LENGTH> K1, bitset<BL
 pair<bitset<BLOC_LENGTH>, bitset<BLOC_LENGTH>>  Attack::findSubK0K1(bitset<BLOC_LENGTH> K2, unsigned int position)
 {
     unsigned int nb_keys = static_cast<unsigned int>(pow(2.0,static_cast<double>(PIECE_LENGTH)));
-    vector<unsigned int> ok(nb_keys,0);
+    vector<unsigned int> check(nb_keys,0);
     for(unsigned int key = 0; key < nb_keys; ++key)
     {
         bitset<BLOC_LENGTH> K0(key); /// devine K0
@@ -159,12 +159,14 @@ pair<bitset<BLOC_LENGTH>, bitset<BLOC_LENGTH>>  Attack::findSubK0K1(bitset<BLOC_
         {
             bitset<BLOC_LENGTH> K1 = passe(ciphertexts[i],plaintexts[i]^K0);
             if (checkKeys(K0,K1,K2,position))
-                ok[key]++;
+                check[key]++;
         }
     }
+
+    /// Trouver la sous-clé qui satisfait le plus de couples (c'est à dire tous les couples)
     unsigned int subkey0 = 0;
     for(unsigned int key = 0; key < nb_keys; ++key)
-        if (ok[key] > ok[subkey0])
+        if (check[key] > check[subkey0])
             subkey0 = key;
 
     /// Construction des deux sous clefs et retour de ces valeurs
@@ -172,7 +174,7 @@ pair<bitset<BLOC_LENGTH>, bitset<BLOC_LENGTH>>  Attack::findSubK0K1(bitset<BLOC_
     good_K0 = moveBitsets(good_K0, static_cast<unsigned int>(PIECE_LENGTH*position));
     bitset<BLOC_LENGTH> good_K1 = passe(ciphertexts[0],plaintexts[0]^good_K0);
     bitset<BLOC_LENGTH> masque(15);
-    masque = moveBitsets(masque, PIECE_LENGTH*position +2);
+    masque = moveBitsets(masque, PIECE_LENGTH*position+2);
     good_K1 &= masque;
     return pair<bitset<BLOC_LENGTH>, bitset<BLOC_LENGTH>>(good_K0,good_K1) ;
 }
@@ -246,7 +248,11 @@ void Attack::findAllKeys(bool active_box)
 * Deux fonctions de support
 **/
 
-std::bitset<BLOC_LENGTH> moveBitsets(std::bitset<BLOC_LENGTH> Key, unsigned int position) // Works correctly
+/**
+* Déplace un bloc de taille 4, pour deviner les blocs successifs
+**/
+
+std::bitset<BLOC_LENGTH> moveBitsets(std::bitset<BLOC_LENGTH> Key, unsigned int position)
 {
     int shift = BLOC_LENGTH - static_cast<int>(position) - PIECE_LENGTH;
     if (shift >= 0)
@@ -255,8 +261,11 @@ std::bitset<BLOC_LENGTH> moveBitsets(std::bitset<BLOC_LENGTH> Key, unsigned int 
         return (Key>>static_cast<size_t>(-shift)|(Key<<(BLOC_LENGTH+static_cast<size_t>(shift))));
 }
 
+/**
+* Test si on a une active box
+**/
 
-bool inline isOneActiveBox(unsigned int b) // hypothesis : 0 < b < 16
+bool inline isOneActiveBox(unsigned int b) // hypothese : 0 < b < 16
 {
     return ((b < 4) || (b % 4 == 0));
 }
