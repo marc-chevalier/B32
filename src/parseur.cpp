@@ -6,7 +6,7 @@ using namespace std;
 
 /**
 * Parse un fichier contenant les clefs.
-* Ils contiennent d'abord le nombre de clefs, puis une clef par ligne, exprimée ppar une suite de '0' et de '1'.
+* Ils contiennent d'abord le nombre de clefs, puis une clef par ligne, exprimée par une suite de '0' et de '1'.
 **/
 
 vector<bitset<BLOC_LENGTH>> Parseur::parseClefs(string clefs_filename)

@@ -5,7 +5,7 @@
 #include <vector>
 
 /**
-* Classe qui fair l'attaque du chiffre.
+* Classe qui fait l'attaque du chiffre.
 **/
 
 class Attack : public LinearApproxMatrix, public Chiffre
@@ -28,6 +28,6 @@ private:
     std::vector<std::pair<unsigned int, unsigned int>> two_active_pairs;
 };
 
-bool isOneActiveBox(unsigned int b) __attribute__((pure)); // one or two active boxes
+bool isOneActiveBox(unsigned int b) __attribute__((pure));
 std::bitset<BLOC_LENGTH> moveBitsets(std::bitset<BLOC_LENGTH> Key, unsigned int position) __attribute__((pure));
 

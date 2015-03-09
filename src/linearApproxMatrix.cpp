@@ -97,7 +97,7 @@ void LinearApproxMatrix::printFarthestCouples()
 }
 
 /**
-* Les deux fonctions qui suivent récupèrent les couples intéressants : ceux qui fournissent unr proba loin de 1/2
+* Les deux fonctions qui suivent récupèrent les couples intéressants : ceux qui fournissent une proba loin de 1/2
 **/
 
 pair<unsigned int,unsigned int> LinearApproxMatrix::getMin(unsigned int index)
@@ -111,7 +111,7 @@ pair<unsigned int,unsigned int> LinearApproxMatrix::getMax(unsigned int index)
 }
 
 /**
-* Implementation magnifiqueemnt compacte du produit scalaire
+* Implementation magnifiquement compacte du produit scalaire
 **/
 
 bool produitScalaire(bitset<BLOC_LENGTH> a, bitset<BLOC_LENGTH> b)

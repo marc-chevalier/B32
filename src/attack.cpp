@@ -28,7 +28,7 @@ Attack::Attack(vector<bitset<BLOC_LENGTH>> plaintexts_, vector<bitset<BLOC_LENGT
 }
 
 /**
-* Devine la clef K2 pour une active box à la position donnée.
+* Devine la clef K2 pour une ou deux actives boxes à la position donnée.
 **/
 
 unsigned int Attack::makeGuess(bool active_box, unsigned int position)
