@@ -242,6 +242,8 @@ En pratique, nous avons utilisé des deux boîtes actives, mais avec un algorith
 
 \section*{Question 9}
 
+\subsection*{Méthode proposée}
+
 Une fois que l'on a trouvé la clé $K_2$, on peut se ramener à l'étude d'un schéma de chiffrement utilisant seulement un tour de fonction $F$. Pour cela, il suffit, à partir de la clé trouvée et du fonctionnement des boîtes, de retrouver $x_1 = F(x_0,K_1) = F^{-1}(c,K_2)$.
 
 On a alors, dans ce schéma de chiffrement réduit, un jeu de couple $(m,x_1)$ où les $x_1$ correspondent au résultat du chiffrement de chaque $m$.
@@ -249,6 +251,12 @@ On a alors, dans ce schéma de chiffrement réduit, un jeu de couple $(m,x_1)$ o
 Pour trouver les clés $K_0$ et $K_1$, on ne peut plus utiliser la relation précédente. Il faut se débrouiller autrement. L'idée ici est de deviner $K_0$ par bloc. On remarque qu'à partir d'un bloc de $K_0$, pour chaque couple $(m,x_1)$, on peut construire un bloc $K_1 = F(m \oplus K_0) \oplus x_1$, la seule clé qui puisse convenir. Ensuite, on compte pour chaque pari le nombre de couples tels que les relations que doivent vérifier les bits de $K_0$ et $K_1$ et ceux déjà découverts de $K_2$. Enfin, on ne garde que les sous-clés tel que le nombre de couples est maximal (égal précisément au nombre de couples).	
 
 Finalement, à partir des trois clés $K_2$, $K_1$ et $K_0$, il est facile de retrouver la clé $K$ à partir de la table des permutations utilisées pour construire les trois clés. De plus, on peut vérifier pendant cette étape que l'on a effectivement bien trouver les bonnes clés lors des étapes précédentes.
+
+\subsection*{Correction : Une meilleure méthode}
+
+Il y avait plus (beaucoup) plus simple : une fois que l'on a trouvé $K_2$, en regardant le tableau des bits nécessaires pour construire $K$, on se rend compte qu'il ne manque plus qu'une dizaine de bits de $K$.
+
+Il suffit alors de brute-forcer sur ces bits manquants, ce qui nous donne à la fois $K_0$, $K_1$ et $K$, et de vérifier si cela fonctionne avec les couples plaintexts/ciphertexts à disposition.
 
 \end{document}
 
