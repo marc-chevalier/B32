@@ -163,7 +163,7 @@ pair<bitset<BLOC_LENGTH>, bitset<BLOC_LENGTH>>  Attack::findSubK0K1(bitset<BLOC_
         }
     }
 
-    /// Trouver la sous-clé qui satisfait le plus de couples (c'est à dire tous les couples)
+    /// Trouver la sous-clé de K0 qui satisfait le plus de couples (c'est à dire tous les couples)
     unsigned int subkey0 = 0;
     for(unsigned int key = 0; key < nb_keys; ++key)
         if (check[key] > check[subkey0])
@@ -171,16 +171,16 @@ pair<bitset<BLOC_LENGTH>, bitset<BLOC_LENGTH>>  Attack::findSubK0K1(bitset<BLOC_
 
     /// Construction des deux sous clefs et retour de ces valeurs
     bitset<BLOC_LENGTH> good_K0(subkey0);
-    good_K0 = moveBitsets(good_K0, static_cast<unsigned int>(PIECE_LENGTH*position));
-    bitset<BLOC_LENGTH> good_K1 = passe(ciphertexts[0],plaintexts[0]^good_K0);
+    good_K0 = moveBitsets(good_K0, static_cast<unsigned int>(PIECE_LENGTH*position)); // Décaler la sous-clé K0
+    bitset<BLOC_LENGTH> good_K1 = passe(ciphertexts[0],plaintexts[0]^good_K0); // Calculer K1 (en utilisant nimporte quel couple (m,c)
     bitset<BLOC_LENGTH> masque(15);
     masque = moveBitsets(masque, PIECE_LENGTH*position+2);
-    good_K1 &= masque;
+    good_K1 &= masque; // Garder seulement les bits pouvant etre devinés
     return pair<bitset<BLOC_LENGTH>, bitset<BLOC_LENGTH>>(good_K0,good_K1) ;
 }
 
 /**
-* Utilise K0, K1 et K2 pour retrouver la clef secrète K
+* Utilise K0, K1 et K2 pour retrouver la clef secrète K (Juste utiliser la table...)
 **/
 
 bitset<BLOC_LENGTH> Attack::buildSecretKey(bitset<BLOC_LENGTH> K0, bitset<BLOC_LENGTH> K1, bitset<BLOC_LENGTH> K2)

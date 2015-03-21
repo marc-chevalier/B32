@@ -107,7 +107,7 @@ D'où $\prob{A.m = P(B).x_1} = \frac{1}{2} \pm \frac{6}{16}$, ce qui permet de c
 
 \section*{Question 5}
 
-Selon la valeur de $b$, les bits non nuls de $P(B)$ peuvent correspondre à une ou deux Sboxes (le "ou" ayant un sens exclusif ici). C'est ce qu'on entend par les cas "une active box" et "deux active boxes" (notamment dans la question 8).
+Selon la valeur de $b$, les bits non nuls de $P(B)$ peuvent correspondre à une ou deux Sboxes (le "ou" ayant un sens exclusif ici). C'est ce qu'on entend par les cas "une boîte active" et "deux boîtes actives" (notamment dans la question 8).
 
 En effet, avec les $A$ et $B$ donnés, les seuls bits de $K_2$ qui vont intervenir dans le calcul de $P(B).x1$ sont les bits $i$ tels que $P(b)_i \neq 0$. Ces bits font forcément partis des bits de $b$, qui sont situés entre les rangs 2 et 6 (voir figure 
 \ref{illustration_bits_key}).
@@ -140,14 +140,14 @@ Si les bits de $b$ valant $1$ occupent deux groupes de 4 bits différents (qui c
 	\draw[color=red] (5.5,1.5) node {$b$};
 	\draw (-0.5,0.5) node {$P(B)$};
 \end{tikzpicture}
-\caption{Ici on cherche à deviner 8 bits de $K_2$ (cas "deux actives boxes")}
+\caption{Ici on cherche à deviner 8 bits de $K_2$ (cas où l'on deux boîtes actives)}
 \label{illustration_bits_key}
 \end{figure}
 
 
-S'ils occupent un seul groupe, alors on est dans le cas "une active boxe". On peut alors se limiter à deviner les 4 premiers bits (ou les 4 suivants selon $b$) de la clé $K_2$.
+S'ils occupent un seul groupe, alors on est dans le cas "une boîte active". On peut alors se limiter à deviner les 4 premiers bits (ou les 4 suivants selon $b$) de la clé $K_2$.
 
-Il est facile de voir que l'on est dans le cas "une active boxe" si $b < 3$ (seuls les bits à droite sont non nuls), ou si $4$ divise $b$ (seuls les bits à gauche sont non nuls).
+Il est facile de voir que l'on est dans le cas "une boîte active" si $b < 3$ (seuls les bits à droite sont non nuls), ou si $4$ divise $b$ (seuls les bits à gauche sont non nuls).
 
 L'algorithme qui renvoie les 4 bits les plus probables pour la sous-clé qui nous intéresse est donné ci-dessous. Dans cet algorithme, nous ne devinons que 4 bits pour les deux méthodes. Nous expliquerons ce choix à la question 8.
 
@@ -155,7 +155,7 @@ L'algorithme qui renvoie les 4 bits les plus probables pour la sous-clé qui nou
 \caption{L'attaque des 4 bits de la clé pouvant être devinés}
 	\Entree{Des couples $(m,c)$}
 	\Sortie{La sous-clé $K'_2$ la plus probable}
-	\Pour{chaque couple $(a,b)$ du bon type (une ou deux actives boxes)}
+	\Pour{chaque couple $(a,b)$ du bon type (une ou deux boîtes actives)}
 	{
 		\Pour{chaque clé $K'_2 \in \{0,1\}^4$}
 		{
@@ -182,7 +182,7 @@ Par mesure de simplicité, on ne représente qu'une partie des bits nuls de P(B)
 \begin{small}
 \begin{tabular}{|c|c|c|c|c|c|}
 	\hline
-	$(a,b)$   & $p_{a,b}$ & 		$P(B)$ 	   & équation linéaire	 & \# d'active boxes & bits de $K_2$ à deviner \\
+	$(a,b)$   & $p_{a,b}$ & 		$P(B)$ 	   & équation linéaire	 & \# de boîtes actives & bits de $K_2$ à deviner \\
 	\hline
 	$(3,15)$  &   0.125   & $0011110\cdots0$ & $m_2 \oplus m_3 = x_0 \oplus x_1 \oplus x_2 \oplus x_3$ & 2 & 2, 3, 4, 5 \\
 	\hline
@@ -211,37 +211,37 @@ Par mesure de simplicité, on ne représente qu'une partie des bits nuls de P(B)
 
 \subsection*{Efficacité des deux méthodes}
 
-Plusieurs méthodes ont été testées : couple par couple, moyenne des couples (une ou deux actives boxes). Tout d'abord, les différents couples ne donnent pas en soi les mêmes clés $K_2$, et sachant que l'on a peu de couples $(a,b)$, on ne pouvait pas choisir lequel des paquet de 4 bits prendre à chaque passe. Nous avons donc implémenté une méthode qui choisit la bonne clé en regardant la somme des biais (écart à la valeur moyenne). Cette méthode fonctionne très bien avec deux actives boxes, par contre on observe quelques erreurs avec une seule active box pour certains choix de couples, alors que pour d'autres le résultat est identique. En effet, avec les couples données, par exemple seuls les bits 2 et 3 peuvent être facilement déduits d'après le tableau (ce qui n'est pas le cas des bits 4 et 5). Ceci est du au fait que tous les $b$ sont dans une seule des deux catégories énoncées en question 5 (en l'occurrence, $b$ multiple de $4$).
+Plusieurs méthodes ont été testées : couple par couple, moyenne des couples (une ou deux boîtes actives). Tout d'abord, les différents couples ne donnent pas en soi les mêmes clés $K_2$, et sachant que l'on a peu de couples $(a,b)$, on ne pouvait pas choisir lequel des paquet de 4 bits prendre à chaque passe. Nous avons donc implémenté une méthode qui choisit la bonne clé en regardant la somme des biais (écart à la valeur moyenne). Cette méthode fonctionne très bien avec deux boîtes actives, par contre on observe quelques erreurs avec une seule boîte active pour certains choix de couples, alors que pour d'autres le résultat est identique. En effet, avec les couples données, par exemple seuls les bits 2 et 3 peuvent être facilement déduits d'après le tableau (ce qui n'est pas le cas des bits 4 et 5). Ceci est du au fait que tous les $b$ sont dans une seule des deux catégories énoncées en question 5 (en l'occurrence, $b$ multiple de $4$).
 
 \subsection*{Complexité}
 
 %TODO : Ici, il faudra comparer les deux méthodes par rapport à la vitesse d'exécution et au nombre d'opérations effectuées
 
-Pour comparer la complexité des deux méthodes, il suffit de comparer la complexité de la recherche de la première clé $K_2$. En effet, après avoir trouvé $K_2$, on n'utilise plus du tout les actives boxes.
+Pour comparer la complexité des deux méthodes, il suffit de comparer la complexité de la recherche de la première clé $K_2$. En effet, après avoir trouvé $K_2$, on n'utilise plus du tout les boîtes actives.
 
-Dans l'algorithme que nous avons implémenté, le fait d'utiliser une ou deux actives boxes donne exactement la même complexité. En effet, à chaque fois, on cherche à deviner le même nombre de bits, et les calculs à effectuer sont les mêmes.
+Dans l'algorithme que nous avons implémenté, le fait d'utiliser une ou deux boîtes actives donne exactement la même complexité. En effet, à chaque fois, on cherche à deviner le même nombre de bits, et les calculs à effectuer sont les mêmes.
 
-On va chercher à comparer ici un algorithme différent : avec deux actives boxes, on pourrait chercher à deviner la clé par bloc de 8 (les 8 bits appartenant aux deux boxes), alors qu'avec une active box, on pourrait chercher à deviner la clé par bloc de 4, mais face aux boxes (et non pas en décalé comme cela a été implémenté).
+On va chercher à comparer ici un algorithme différent : avec deux boîtes actives, on pourrait chercher à deviner la clé par bloc de 8 (les 8 bits appartenant aux deux boîtes), alors qu'avec une boîte active, on pourrait chercher à deviner la clé par bloc de 4, mais face aux boîtes (et non pas en décalé comme cela a été implémenté).
 
 Soit $C(n)$ le coût d'un produit scalaire entre deux nombres de $n$ bits. On peut supposer que $C(n)$ est linéaire.
 
 Le coût de chaque méthode est donné par $ \# (subkeys) \times 2^{ | keys |} \times 2 C( |keys|)$. En effet, il faut deviner $\# (subkeys)$ sous-clés, avec une méthode qui nécessite de tester $2^{ | keys |}$ sous-clés possibles, ces tests utilisant essentiellement deux calculs de produits scalaires.
 
-Pour la méthode avec une active boxe, ce coût vaut $C_1 = 8 \times 2^4 \times 2 C(8)$. 
+Pour la méthode avec une boîte active, ce coût vaut $C_1 = 8 \times 2^4 \times 2 C(8)$. 
 
-Pour la méthode avec deux actives boxes, ce coût vaut $C_2 = 4 \times 2^8 \times 2 C(4)$.
+Pour la méthode avec deux boîtes actives, ce coût vaut $C_2 = 4 \times 2^8 \times 2 C(4)$.
 
 La gain entre ces deux méthodes vaut alors :
 
 $$ \frac{C_2}{C_1} = \frac{1}{2} \times 2^{8-4} \times \frac{C(8)}{C(4)} = 16$$.
 
-La méthode utilisant une active boxe va donc 16 fois plus vite que l'autre méthode.
+La méthode utilisant une boîte active va donc 16 fois plus vite que l'autre méthode.
 
-En pratique, nous avons utilisé des deux actives boxes, mais avec un algorithme qui ne devine que des blocs de 4 bits correspondant précisément aux bits sur lesquels les relations intervenants dans la table de la question 6 opèrent.
+En pratique, nous avons utilisé des deux boîtes actives, mais avec un algorithme qui ne devine que des blocs de 4 bits correspondant précisément aux bits sur lesquels les relations intervenants dans la table de la question 6 opèrent.
 
 \section*{Question 9}
 
-Une fois que l'on a trouvé la clé $K_2$, on peut se ramener à l'étude d'un schéma de chiffrement utilisant seulement un tour de fonction $F$. Pour cela, il suffit, à partir de la clé trouvée et du fonctionnement des SBoxes, de retrouver $x_1 = F(x_0,K_1) = F^{-1}(c,K_2)$.
+Une fois que l'on a trouvé la clé $K_2$, on peut se ramener à l'étude d'un schéma de chiffrement utilisant seulement un tour de fonction $F$. Pour cela, il suffit, à partir de la clé trouvée et du fonctionnement des boîtes, de retrouver $x_1 = F(x_0,K_1) = F^{-1}(c,K_2)$.
 
 On a alors, dans ce schéma de chiffrement réduit, un jeu de couple $(m,x_1)$ où les $x_1$ correspondent au résultat du chiffrement de chaque $m$.
 
@@ -249,8 +249,5 @@ Pour trouver les clés $K_0$ et $K_1$, on ne peut plus utiliser la relation pré
 
 Finalement, à partir des trois clés $K_2$, $K_1$ et $K_0$, il est facile de retrouver la clé $K$ à partir de la table des permutations utilisées pour construire les trois clés. De plus, on peut vérifier pendant cette étape que l'on a effectivement bien trouver les bonnes clés lors des étapes précédentes.
 
-%\section*{Question 10}
-
-% Rappel : c'est uen question bonus, on peut faire seulement la théorie si le temps nous le permet.
 \end{document}
 
