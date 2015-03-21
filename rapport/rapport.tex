@@ -109,7 +109,7 @@ D'où $\prob{A.m = P(B).x_1} = \frac{1}{2} \pm \frac{6}{16}$, ce qui permet de c
 
 Selon la valeur de $b$, les bits non nuls de $P(B)$ peuvent correspondre à une ou deux Sboxes (le "ou" ayant un sens exclusif ici). C'est ce qu'on entend par les cas "une boîte active" et "deux boîtes actives" (notamment dans la question 8).
 
-En effet, avec les $A$ et $B$ donnés, les seuls bits de $K_2$ qui vont intervenir dans le calcul de $P(B).x1$ sont les bits $i$ tels que $P(b)_i \neq 0$. Ces bits font forcément partis des bits de $b$, qui sont situés entre les rangs 2 et 6 (voir figure 
+En effet, avec les $A$ et $B$ donnés, les seuls bits de $K_2$ qui vont intervenir dans le calcul de $P(B).x1$ sont les bits $i$ tels que $P(B)_i \neq 0$. Ces bits font forcément partis des bits de $b$, qui sont situés entre les rangs 2 et 6 (voir figure 
 \ref{illustration_bits_key}).
 
 Si les bits de $b$ valant $1$ occupent deux groupes de 4 bits différents (qui correspondent aux résultats de 2 boxes différentes), on est dans le cas "deux actives boxes". C'est le cas de la figure \ref{illustration_bits_key}. Dans ce cas, on peut se limiter à chercher les 8 premiers bits de la clé.
@@ -155,6 +155,7 @@ L'algorithme qui renvoie les 4 bits les plus probables pour la sous-clé qui nou
 \caption{L'attaque des 4 bits de la clé pouvant être devinés}
 	\Entree{Des couples $(m,c)$}
 	\Sortie{La sous-clé $K'_2$ la plus probable}
+	$n \longleftarrow $ nombre de couples plaintexts/ciphertexts à disposition. \\
 	\Pour{chaque couple $(a,b)$ du bon type (une ou deux boîtes actives)}
 	{
 		\Pour{chaque clé $K'_2 \in \{0,1\}^4$}
@@ -164,7 +165,7 @@ L'algorithme qui renvoie les 4 bits les plus probables pour la sous-clé qui nou
 				Calculer $x_1 = c \oplus K_2$ ($K_2$ = $K'_2$ complétée par des zéros ailleurs) \\
 				\Si{$A.m = P(B).x_1$}{$Count[K'_2]$++}
 			}
-		$Biais[K'_2] = | Count[K'_2] - \# texts |$
+		$Biais[K'_2] = | Count[K'_2] - n |$
 		}
 		
 	}
